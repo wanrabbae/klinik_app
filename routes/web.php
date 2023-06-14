@@ -32,13 +32,17 @@ Route::get('/transaction', [TransactionCtrl::class, 'index'])->name('transaction
 
 // PASIEN ROUTES
 Route::get('/pasien', [PasienCtrl::class, 'index'])->name('pasien.index')->middleware('auth');
-Route::get('/preview-pasien/{id}', [PasienCtrl::class, 'preview'])->name('pasien.index')->middleware('auth');
+Route::get('/pasien/preview/{id}', [PasienCtrl::class, 'preview'])->name('pasien.preview')->middleware('auth');
 Route::post('/pasien', [PasienCtrl::class, 'store'])->name('pasien.post')->middleware('auth');
 Route::post('/pasien/update/{id}', [PasienCtrl::class, 'update'])->name('pasien.put')->middleware('auth');
 Route::get('/pasien/delete/{id}', [PasienCtrl::class, 'delete'])->name('pasien.delete')->middleware('auth');
 
 // TINDAKAN ROUTES
 Route::get('/tindakan', [TindakanCtrl::class, 'index'])->name('tindakan.index')->middleware('auth');
+Route::get('/tindakan/preview/{id}', [TindakanCtrl::class, 'preview'])->name('pasien.preview')->middleware('auth');
+Route::post('/tindakan', [TindakanCtrl::class, 'store'])->name('pasien.post')->middleware('auth');
+Route::post('/tindakan/update/{id}', [TindakanCtrl::class, 'update'])->name('pasien.put')->middleware('auth');
+Route::get('/tindakan/delete/{id}', [TindakanCtrl::class, 'delete'])->name('pasien.delete')->middleware('auth');
 
 // DOKTER ROUTES
 Route::get('/dokter', [DokterCtrl::class, 'index'])->name('dokter.index')->middleware('auth');

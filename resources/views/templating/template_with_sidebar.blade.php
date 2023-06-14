@@ -83,34 +83,34 @@
         <div class="main-menu">
             <div class="scroll">
                 <ul class="list-unstyled">
-                    <li class="active">
+                    <li id="menu_sidebar" class="test">
                         <a href="/">
                             <i class="iconsminds-shop-4"></i>
                             <span>Dashboards</span>
                         </a>
                     </li>
-                    <li>
+                    <li id="menu_sidebar" class="test">
                         <a href="/transaction">
                             <i class="iconsminds-digital-drawing"></i> Transaksi
                         </a>
                     </li>
-                    <li>
+                    <li id="menu_sidebar" class="test">
                         <a href="/pasien">
                             <i class="iconsminds-air-balloon-1"></i> Data Pasien
                         </a>
                     </li>
-                    <li>
+                    <li id="menu_sidebar" class="test">
                         <a href="/tindakan">
                             <i class="iconsminds-pantone"></i> Data Tindakan
                         </a>
                     </li>
-                    <li>
+                    <li id="menu_sidebar" class="test">
                         <a href="/dokter">
                             <i class="iconsminds-three-arrow-fork"></i> Data Dokter
                         </a>
                     </li>
 
-                    <li>
+                    <li id="menu_sidebar" class="test">
                         <a href="/kinerja">
                             <i class="iconsminds-bucket"></i> Kinerja Dokter
                         </a>
@@ -642,6 +642,11 @@
                     }
                 }]
             });
+
+            $('#menu_sidebar').on('click', function() {
+                // $('#menu_sidebar').removeClass('active')
+                $('#menu_sidebar').addClass('active')
+            })
         });
     </script>
 </body>

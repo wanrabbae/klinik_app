@@ -37,7 +37,7 @@
                     <td>{{ $pasien->usia }}</td>
                     <td>0</td>
                     <td>
-                        <a href="/preview-pasien/{{ $pasien->id }}" class="btn btn-sm btn-info">Preview</a>
+                        <a href="/pasien/preview/{{ $pasien->id }}" class="btn btn-sm btn-info">Preview</a>
                         <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalEditPasien{{ $pasien->id }}">Edit</button>
                         <a href="/pasien/delete/{{ $pasien->id }}" class="btn btn-sm btn-danger" onclick="return confirm('Anda yakin ingin menghapus data ini ?')">Delete</a>
 
@@ -106,6 +106,10 @@
             </tr>
         </tfoot>
     </table>
+
+    <div class="d-flex justify-content-end mt-3">
+        <p>Total {{ $countData }} Pasien</p>
+    </div>
 
     <!-- Modal Create -->
     <div class="modal fade" id="modalCreatePasien" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

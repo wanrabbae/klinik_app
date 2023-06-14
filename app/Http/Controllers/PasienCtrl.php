@@ -10,13 +10,14 @@ class PasienCtrl extends Controller
     public function index()
     {
         $data_patients = Pasiens::all();
-        return view('pasien.pasien', compact('data_patients'));
+        $countData = Pasiens::count();
+        return view('pasien.pasien', compact('data_patients', 'countData'));
     }
 
     public function preview($id)
     {
         $data_patient = Pasiens::find($id);
-        return view('pasien_preview', compact('data_patient'));
+        return view('pasien.pasien_preview', compact('data_patient'));
     }
 
     public function store(Request $request)
