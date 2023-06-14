@@ -1,5 +1,14 @@
 @extends('templating.template_with_sidebar')
+<style>
+    .inputRange:focus {
+        outline: none;
+    }
 
+    .inputRange {
+        font-size: 15px;
+        padding: 5px;
+    }
+</style>
 @section('content')
     <h1>Data Pokok Tindakan</h1>
     <div class="separator mb-3"></div>
@@ -13,6 +22,9 @@
             {{ session()->get('success') }}
         </div>
     @endif
+    <div class="mb-3">
+        Range Biaya: <input type="number" class="inputRange" id="minFee" placeholder="minimal"> - <input type="number" class="inputRange" id="maxFee" placeholder="maksimal">
+    </div>
     <table id="datatable" class="display nowrap p-3" style="width:100%">
         <thead>
             <tr>

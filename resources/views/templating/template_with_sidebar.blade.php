@@ -635,7 +635,30 @@
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#datatable').DataTable({
+
+            var minEl = $('#minFee');
+            var maxEl = $('#maxFee');
+
+            // Custom range filtering function
+            $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+                console.log(parseFloat(data[5].split(" ")[1].replace('.', '')));
+                var min = parseInt(minEl.val(), 10);
+                var max = parseInt(maxEl.val(), 10);
+                var total_harga = parseFloat(data[5].split(" ")[1].replace('.', '')) || 0; // use data for the total_harga column
+
+                if (
+                    (isNaN(min) && isNaN(max)) ||
+                    (isNaN(min) && total_harga <= max) ||
+                    (min <= total_harga && isNaN(max)) ||
+                    (min <= total_harga && total_harga <= max)
+                ) {
+                    return true;
+                }
+
+                return false;
+            });
+
+            var table = $('#datatable').DataTable({
                 dom: 'Bfrtip',
                 buttons: [{
                     extend: 'excel',
@@ -644,6 +667,13 @@
                         columns: 'th:not(:last-child)'
                     }
                 }]
+            });
+
+            minEl.on('input', function() {
+                table.draw();
+            });
+            maxEl.on('input', function() {
+                table.draw();
             });
 
             $('#menu_sidebar').on('click', function() {

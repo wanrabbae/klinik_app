@@ -16,7 +16,8 @@ class DokterCtrl extends Controller
 
     public function kinerja()
     {
-        return view('dokter.kinerja');
+        $data_dokters = User::where('role', 'Dokter')->get(["id", "nama"]);
+        return view('dokter.kinerja', compact('data_dokters'));
     }
 
     public function store(Request $request)
