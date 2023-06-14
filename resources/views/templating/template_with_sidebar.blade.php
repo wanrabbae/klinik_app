@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="css/vendor/perfect-scrollbar.css" />
 
     <link rel="stylesheet" href="css/main.css" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 </head>
 
 <body id="app-container" class="menu-default show-spinner">
@@ -40,8 +42,6 @@
                     <rect x="0.5" y="15.5" width="25" height="1" />
                 </svg>
             </a>
-
-            <a class="btn btn-sm btn-outline-primary ml-3 d-none d-md-inline-block" href="https://1.envato.market/5kAb">&nbsp;BUY&nbsp;</a>
         </div>
 
 
@@ -62,17 +62,17 @@
 
             <div class="user d-inline-block">
                 <button class="btn btn-empty p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="name"></span>
+                    <span class="name">{{ auth()->user()->nama ?? 'Pengguna' }}</span>
                     <span>
                         <img alt="Profile Picture" src="img/profiles/l-1.jpg" />
                     </span>
                 </button>
 
                 <div class="dropdown-menu dropdown-menu-right mt-3">
-                    <a class="dropdown-item" href="#">Account</a>
+                    {{-- <a class="dropdown-item" href="#">Account</a>
                     <a class="dropdown-item" href="#">Features</a>
                     <a class="dropdown-item" href="#">History</a>
-                    <a class="dropdown-item" href="#">Support</a>
+                    <a class="dropdown-item" href="#">Support</a> --}}
                     <a class="dropdown-item" href="/logout">Sign out</a>
                 </div>
             </div>
@@ -83,47 +83,49 @@
         <div class="main-menu">
             <div class="scroll">
                 <ul class="list-unstyled">
-                    <li>
-                        <a href="#dashboard">
+                    <li class="active">
+                        <a href="/">
                             <i class="iconsminds-shop-4"></i>
                             <span>Dashboards</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#layouts">
-                            <i class="iconsminds-digital-drawing"></i> Pages
+                        <a href="/transaction">
+                            <i class="iconsminds-digital-drawing"></i> Transaksi
                         </a>
                     </li>
                     <li>
-                        <a href="#applications">
-                            <i class="iconsminds-air-balloon-1"></i> Applications
+                        <a href="/pasien">
+                            <i class="iconsminds-air-balloon-1"></i> Data Pasien
                         </a>
                     </li>
                     <li>
-                        <a href="#ui">
-                            <i class="iconsminds-pantone"></i> UI
+                        <a href="/tindakan">
+                            <i class="iconsminds-pantone"></i> Data Tindakan
                         </a>
                     </li>
                     <li>
-                        <a href="#menu">
-                            <i class="iconsminds-three-arrow-fork"></i> Menu
+                        <a href="/dokter">
+                            <i class="iconsminds-three-arrow-fork"></i> Data Dokter
                         </a>
                     </li>
-                    <li class="active">
-                        <a href="Blank.Page.html">
-                            <i class="iconsminds-bucket"></i> Blank Page
-                        </a>
-                    </li>
+
                     <li>
+                        <a href="/kinerja">
+                            <i class="iconsminds-bucket"></i> Kinerja Dokter
+                        </a>
+                    </li>
+
+                    {{-- <li>
                         <a href="https://dore-jquery-docs.coloredstrategies.com" target="_blank">
                             <i class="iconsminds-library"></i> Docs
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>
 
-        <div class="sub-menu">
+        {{-- <div class="sub-menu">
             <div class="scroll">
                 <ul class="list-unstyled" data-link="dashboard">
                     <li>
@@ -575,7 +577,7 @@
                 </ul>
 
             </div>
-        </div>
+        </div> --}}
     </div>
 
     <main>
@@ -620,6 +622,28 @@
     <script src="js/vendor/mousetrap.min.js"></script>
     <script src="js/dore.script.js"></script>
     <script src="js/scripts.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#datatable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [{
+                    extend: 'excel',
+                    className: 'btn btn-success',
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                    }
+                }]
+            });
+        });
+    </script>
 </body>
 
 </html>

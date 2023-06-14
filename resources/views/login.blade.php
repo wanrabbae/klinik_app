@@ -47,14 +47,20 @@
                             <form method="POST" action="{{ route('auth') }}">
                                 @csrf
                                 <label class="form-group has-float-label mb-4">
-                                    <input class="form-control" name="email" />
+                                    <input class="form-control" name="email" type="email" required />
                                     <span>E-mail</span>
                                 </label>
 
                                 <label class="form-group has-float-label mb-4">
-                                    <input class="form-control" type="password" placeholder="" name="password" />
+                                    <input class="form-control" type="password" required placeholder="" name="password" />
                                     <span>Password</span>
                                 </label>
+
+                                @if (session()->has('error'))
+                                    <div class="alert alert-danger p-1" role="alert">
+                                        {{ session()->get('error') }}
+                                    </div>
+                                @endif
                                 <div class="d-flex justify-content-between align-items-center">
                                     <a href="#">Forget password?</a>
                                     <button class="btn btn-primary btn-lg btn-shadow" type="submit">LOGIN</button>

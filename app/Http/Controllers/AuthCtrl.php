@@ -22,7 +22,7 @@ class AuthCtrl extends Controller
             return redirect()->route("dashboard")->with("success", "Login successfuly!");
         }
 
-        return redirect()->route("login")->with("error", "Incorrect email or password!");
+        return redirect()->route("login")->with("error", "Email atau Password Salah!");
     }
 
     public function logout(Request $request)
