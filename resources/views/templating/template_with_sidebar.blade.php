@@ -96,7 +96,7 @@
                     </li>
                     <li id="menu_sidebar" class="test">
                         <a href="/pasien">
-                            <i class="iconsminds-air-balloon-1"></i> Data Pasien
+                            <i class="iconsminds-user"></i> Data Pasien
                         </a>
                     </li>
                     <li id="menu_sidebar" class="test">
