@@ -13,7 +13,7 @@
             {{ session()->get('success') }}
         </div>
     @endif
-    <table id="datatable" class="display nowrap p-3" style="width:100%">
+    <table id="datatable" class="display nowrap" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>

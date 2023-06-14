@@ -25,7 +25,7 @@
     <div class="mb-3">
         Range Biaya: <input type="number" class="inputRange" id="minFee" placeholder="minimal"> - <input type="number" class="inputRange" id="maxFee" placeholder="maksimal">
     </div>
-    <table id="datatable" class="display nowrap p-3" style="width:100%">
+    <table id="datatable" class="display nowrap" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>

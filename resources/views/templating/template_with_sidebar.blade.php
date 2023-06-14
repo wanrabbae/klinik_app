@@ -666,6 +666,7 @@
 
             var table = $('#datatable').DataTable({
                 dom: 'Bfrtip',
+                scrollX: true,
                 buttons: [{
                     extend: 'excel',
                     className: 'btn btn-success',

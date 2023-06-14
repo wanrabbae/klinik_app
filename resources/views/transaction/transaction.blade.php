@@ -4,7 +4,7 @@
     <h1>Transactions</h1>
     <div class="separator mb-5"></div>
 
-    <table id="datatable" class="display nowrap p-3" style="width:100%">
+    <table id="datatable" class="display nowrap" style="width:100%">
         <thead>
             <tr>
                 <th>Name</th>
