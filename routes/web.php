@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthCtrl;
 use App\Http\Controllers\DashboardCtrl;
 use App\Http\Controllers\DokterCtrl;
+use App\Http\Controllers\InfografisCtrl;
 use App\Http\Controllers\PasienCtrl;
 use App\Http\Controllers\TindakanCtrl;
 use App\Http\Controllers\TransactionCtrl;
@@ -50,3 +51,7 @@ Route::get('/kinerja', [DokterCtrl::class, 'kinerja'])->name('dokter.kinerja.ind
 Route::post('/dokter', [DokterCtrl::class, 'store'])->name('dokter.post')->middleware('auth');
 Route::post('/dokter/update/{id}', [DokterCtrl::class, 'update'])->name('dokter.put')->middleware('auth');
 Route::get('/dokter/delete/{id}', [DokterCtrl::class, 'delete'])->name('dokter.delete')->middleware('auth');
+
+
+// INFOGRAFIS ROUTES
+Route::get('/infografis', [InfografisCtrl::class, 'index'])->name('infografis.index')->middleware('auth');

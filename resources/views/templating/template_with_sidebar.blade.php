@@ -119,6 +119,12 @@
                         </li>
                     @endif
 
+                    <li id="menu_sidebar" class="test">
+                        <a href="/infografis">
+                            <i class="iconsminds-user"></i> Infografis
+                        </a>
+                    </li>
+
                     {{-- <li>
                         <a href="https://dore-jquery-docs.coloredstrategies.com" target="_blank">
                             <i class="iconsminds-library"></i> Docs
