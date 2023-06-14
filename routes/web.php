@@ -39,11 +39,14 @@ Route::get('/pasien/delete/{id}', [PasienCtrl::class, 'delete'])->name('pasien.d
 
 // TINDAKAN ROUTES
 Route::get('/tindakan', [TindakanCtrl::class, 'index'])->name('tindakan.index')->middleware('auth');
-Route::get('/tindakan/preview/{id}', [TindakanCtrl::class, 'preview'])->name('pasien.preview')->middleware('auth');
-Route::post('/tindakan', [TindakanCtrl::class, 'store'])->name('pasien.post')->middleware('auth');
-Route::post('/tindakan/update/{id}', [TindakanCtrl::class, 'update'])->name('pasien.put')->middleware('auth');
-Route::get('/tindakan/delete/{id}', [TindakanCtrl::class, 'delete'])->name('pasien.delete')->middleware('auth');
+Route::get('/tindakan/preview/{id}', [TindakanCtrl::class, 'preview'])->name('tindakan.preview')->middleware('auth');
+Route::post('/tindakan', [TindakanCtrl::class, 'store'])->name('tindakan.post')->middleware('auth');
+Route::post('/tindakan/update/{id}', [TindakanCtrl::class, 'update'])->name('tindakan.put')->middleware('auth');
+Route::get('/tindakan/delete/{id}', [TindakanCtrl::class, 'delete'])->name('tindakan.delete')->middleware('auth');
 
 // DOKTER ROUTES
 Route::get('/dokter', [DokterCtrl::class, 'index'])->name('dokter.index')->middleware('auth');
 Route::get('/kinerja', [DokterCtrl::class, 'kinerja'])->name('dokter.kinerja.index')->middleware('auth');
+Route::post('/dokter', [DokterCtrl::class, 'store'])->name('dokter.post')->middleware('auth');
+Route::post('/dokter/update/{id}', [DokterCtrl::class, 'update'])->name('dokter.put')->middleware('auth');
+Route::get('/dokter/delete/{id}', [DokterCtrl::class, 'delete'])->name('dokter.delete')->middleware('auth');

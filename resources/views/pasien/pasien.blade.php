@@ -3,9 +3,11 @@
 @section('content')
     <h1>Data Pokok Pasien</h1>
     <div class="separator mb-3"></div>
-    <div class="d-flex justify-content-end">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#modalCreatePasien">Tambah</button>
-    </div>
+    @if (auth()->user()->role != 'Dokter')
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalCreatePasien">Tambah</button>
+        </div>
+    @endif
     @if (session()->has('success'))
         <div class="alert alert-info p-2 my-2" role="alert">
             {{ session()->get('success') }}
@@ -38,8 +40,10 @@
                     <td>0</td>
                     <td>
                         <a href="/pasien/preview/{{ $pasien->id }}" class="btn btn-sm btn-info">Preview</a>
-                        <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalEditPasien{{ $pasien->id }}">Edit</button>
-                        <a href="/pasien/delete/{{ $pasien->id }}" class="btn btn-sm btn-danger" onclick="return confirm('Anda yakin ingin menghapus data ini ?')">Delete</a>
+                        @if (auth()->user()->role != 'Dokter')
+                            <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalEditPasien{{ $pasien->id }}">Edit</button>
+                            <a href="/pasien/delete/{{ $pasien->id }}" class="btn btn-sm btn-danger" onclick="return confirm('Anda yakin ingin menghapus data ini ?')">Delete</a>
+                        @endif
 
                         <!-- Modal Edit -->
                         <div class="modal fade" id="modalEditPasien{{ $pasien->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

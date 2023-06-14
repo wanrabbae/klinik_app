@@ -64,7 +64,7 @@
                 <button class="btn btn-empty p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="name">{{ auth()->user()->nama ?? 'Pengguna' }}</span>
                     <span>
-                        <img alt="Profile Picture" src="img/profiles/l-1.jpg" />
+                        <img alt="Profile Picture" src="https://www.citypng.com/public/uploads/preview/hd-man-user-illustration-icon-transparent-png-11640168385tqosatnrny.png?v=2023060800" />
                     </span>
                 </button>
 
@@ -104,17 +104,20 @@
                             <i class="iconsminds-pantone"></i> Data Tindakan
                         </a>
                     </li>
-                    <li id="menu_sidebar" class="test">
-                        <a href="/dokter">
-                            <i class="iconsminds-three-arrow-fork"></i> Data Dokter
-                        </a>
-                    </li>
 
-                    <li id="menu_sidebar" class="test">
-                        <a href="/kinerja">
-                            <i class="iconsminds-bucket"></i> Kinerja Dokter
-                        </a>
-                    </li>
+                    @if (auth()->user()->role != 'Dokter')
+                        <li id="menu_sidebar" class="test">
+                            <a href="/dokter">
+                                <i class="iconsminds-three-arrow-fork"></i> Data Dokter
+                            </a>
+                        </li>
+
+                        <li id="menu_sidebar" class="test">
+                            <a href="/kinerja">
+                                <i class="iconsminds-bucket"></i> Kinerja Dokter
+                            </a>
+                        </li>
+                    @endif
 
                     {{-- <li>
                         <a href="https://dore-jquery-docs.coloredstrategies.com" target="_blank">

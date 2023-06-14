@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pasiens;
 use App\Models\Tindakan;
 use Illuminate\Http\Request;
 
