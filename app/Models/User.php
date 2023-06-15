@@ -12,6 +12,11 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public function transaksi()
+    {
+        return $this->hasMany(Transactions::class, 'user_id', 'id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

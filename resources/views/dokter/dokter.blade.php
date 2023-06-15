@@ -35,7 +35,7 @@
                     <td>{{ $dokter->alamat }}</td>
                     <td>{{ explode(' ', $dokter->tgl_lahir)[0] }}</td>
                     <td>{{ $dokter->usia }}</td>
-                    <td>0</td>
+                    <td>{{ count($dokter->transaksi) }}</td>
                     <td>
                         {{-- <a href="/dokter/preview/{{ $dokter->id }}" class="btn btn-sm btn-info">Preview</a> --}}
                         <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalEditPasien{{ $dokter->id }}">Edit</button>

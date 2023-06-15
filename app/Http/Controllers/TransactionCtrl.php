@@ -8,10 +8,18 @@ use Illuminate\Http\Request;
 
 class TransactionCtrl extends Controller
 {
+
     public function index()
     {
         $data_transactions = Transactions::with(['pasien', 'dokter', 'transaction_tindak'])->get();
         $countData = Transactions::count();
+
+        if (auth()->user()->role == "Dokter") {
+            $data_transactions = Transactions::with(['pasien', 'dokter', 'transaction_tindak'])->where('user_id', auth()->user()->id)->get();
+
+            $countData = Transactions::where('user_id', auth()->user()->id)->count();
+        }
+
         return view('transaction.transaction', compact('data_transactions', 'countData'));
     }
 

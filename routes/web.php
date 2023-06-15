@@ -48,10 +48,11 @@ Route::get('/tindakan/delete/{id}', [TindakanCtrl::class, 'delete'])->name('tind
 
 // DOKTER ROUTES
 Route::get('/dokter', [DokterCtrl::class, 'index'])->name('dokter.index')->middleware('auth');
-Route::get('/kinerja', [DokterCtrl::class, 'kinerja'])->name('dokter.kinerja.index')->middleware('auth');
 Route::post('/dokter', [DokterCtrl::class, 'store'])->name('dokter.post')->middleware('auth');
 Route::post('/dokter/update/{id}', [DokterCtrl::class, 'update'])->name('dokter.put')->middleware('auth');
 Route::get('/dokter/delete/{id}', [DokterCtrl::class, 'delete'])->name('dokter.delete')->middleware('auth');
+Route::get('/kinerja', [DokterCtrl::class, 'kinerja'])->name('dokter.kinerja.index')->middleware('auth');
+Route::post('/lapor_kinerja', [DokterCtrl::class, 'kinerjaPost'])->name('dokter.kinerja.laporan')->middleware('auth');
 
 
 // INFOGRAFIS ROUTES

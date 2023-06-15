@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transactions;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,7 @@ class DokterCtrl extends Controller
 {
     public function index()
     {
-        $data_dokters = User::where('role', 'Dokter')->get();
+        $data_dokters = User::with('transaksi')->where('role', '=', 'Dokter')->get();
         $countData = User::count();
         return view('dokter.dokter', compact('data_dokters', 'countData'));
     }
@@ -18,6 +19,13 @@ class DokterCtrl extends Controller
     {
         $data_dokters = User::where('role', 'Dokter')->get(["id", "nama"]);
         return view('dokter.kinerja', compact('data_dokters'));
+    }
+
+    public function kinerjaPost(Request $request)
+    {
+        $data = Transactions::with('dokter', 'pasien', 'transaction_tindak')->where('user_id', '=', $request->dokter)->whereBetween('created_at', [date($request->startDate), date($request->endDate)])->get();
+
+        dd($data);
     }
 
     public function store(Request $request)

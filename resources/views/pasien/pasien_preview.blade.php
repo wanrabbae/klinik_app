@@ -37,7 +37,7 @@
                         @if ($data_patient->transactions != null)
                             @foreach ($data_patient->transactions as $transaction)
                                 <tr>
-                                    <th rowspan="3">{{ $transaction->tgl_transaksi }}</th>
+                                    <th rowspan="{{ count($transaction->transaction_tindak) + 1 }}">{{ $transaction->tgl_transaksi }}</th>
                                 </tr>
                                 @foreach ($transaction->transaction_tindak as $tindakan)
                                     <tr>
