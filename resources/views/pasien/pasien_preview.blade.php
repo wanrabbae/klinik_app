@@ -14,15 +14,15 @@
 
     <div class="card">
         <div class="card-body">
-            <p class="fs-5">Nama Pasien: {{ $data_patient->nama_pasien }}</p>
-            <p class="fs-5">No Rekam Medis: {{ $data_patient->nomor_rekam_medis }}</p>
-            <p class="fs-5">Alamat: {{ $data_patient->alamat }}</p>
-            <p class="fs-5">No. Telp: {{ $data_patient->telepon }}</p>
-            <p class="fs-5">Tanggal Lahir: {{ $data_patient->tgl_lahir }}</p>
-            <p class="fs-5">Jumlah Transaksi: 0</p>
+            <p class="text-lg" style="font-size: 18px;">Nama Pasien: {{ $data_patient->nama_pasien }}</p>
+            <p class="text-lg" style="font-size: 18px;">No Rekam Medis: {{ $data_patient->nomor_rekam_medis }}</p>
+            <p class="text-lg" style="font-size: 18px;">Alamat: {{ $data_patient->alamat }}</p>
+            <p class="text-lg" style="font-size: 18px;">No. Telp: {{ $data_patient->telepon }}</p>
+            <p class="text-lg" style="font-size: 18px;">Tanggal Lahir: {{ explode(' ', $data_patient->tgl_lahir)[0] }}</p>
+            <p class="text-lg" style="font-size: 18px;">Jumlah Transaksi: {{ count($data_patient->transactions) ?? 0 }}</p>
 
             <div class="mt-2">
-                <p class="fs-5" class="text-muted">Rekam Medis</p>
+                <p class="text-lg" style="font-size: 18px;" class="text-muted">Rekam Medis</p>
 
                 <table border="1" cellspacing="0">
                     <thead>
@@ -34,18 +34,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>23/06/2023</td>
-                            <td>Tindakan 1</td>
-                            <td>Dokter 1</td>
-                            <td>Harus istirahat nonton anime</td>
-                        </tr>
-                        <tr>
-                            <td>23/06/2023</td>
-                            <td>Tindakan 1</td>
-                            <td>Dokter 1</td>
-                            <td>Harus istirahat nonton anime</td>
-                        </tr>
+                        @if ($data_patient->transactions != null)
+                            @foreach ($data_patient->transactions as $transaction)
+                                <tr>
+                                    <th rowspan="3">{{ $transaction->tgl_transaksi }}</th>
+                                </tr>
+                                @foreach ($transaction->transaction_tindak as $tindakan)
+                                    <tr>
+                                        <td>{{ $tindakan->nama_tindakan }}</td>
+                                        <td>{{ $transaction->dokter->nama }}</td>
+                                        <td>{{ $transaction->keterangan }}</td>
+                                    </tr>
+                                @endforeach
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="4">Belum Ada Transaksi</td>
+                            </tr>
+                        @endif
+
                     </tbody>
                 </table>
             </div>

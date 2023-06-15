@@ -11,4 +11,9 @@ class Pasiens extends Model
 
     protected $guarded = [];
     protected $table = 'patients';
+
+    public function transactions()
+    {
+        return $this->hasMany(Transactions::class, 'patient_id', 'id');
+    }
 }

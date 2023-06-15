@@ -10,7 +10,9 @@ class TransactionCtrl extends Controller
 {
     public function index()
     {
-        return view('transaction.transaction');
+        $data_transactions = Transactions::with(['pasien', 'dokter', 'transaction_tindak'])->get();
+        $countData = Transactions::count();
+        return view('transaction.transaction', compact('data_transactions', 'countData'));
     }
 
     public function store(Request $request)

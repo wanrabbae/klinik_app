@@ -9,14 +9,15 @@ class PasienCtrl extends Controller
 {
     public function index()
     {
-        $data_patients = Pasiens::all();
+        $data_patients = Pasiens::with(['transactions'])->get();
         $countData = Pasiens::count();
         return view('pasien.pasien', compact('data_patients', 'countData'));
     }
 
-    public function preview($id)
+    public function preview(Request $request)
     {
-        $data_patient = Pasiens::find($id);
+        $data_patient = Pasiens::with('transactions', 'transactions.transaction_tindak', 'transactions.dokter')->where('id', '=', $request->get('id'))->first();
+        // dd($data_patient);
         return view('pasien.pasien_preview', compact('data_patient'));
     }
 

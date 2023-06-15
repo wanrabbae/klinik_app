@@ -11,4 +11,19 @@ class Transactions extends Model
 
     protected $guarded = [];
     protected $table = 'transactions';
+
+    public function pasien()
+    {
+        return $this->belongsTo(Pasiens::class, 'patient_id');
+    }
+
+    public function dokter()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function transaction_tindak()
+    {
+        return $this->hasMany(TransactionTindakan::class, 'transaction_id', 'id');
+    }
 }
