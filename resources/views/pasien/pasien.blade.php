@@ -39,7 +39,7 @@
                     <td>{{ $pasien->usia }}</td>
                     <td>0</td>
                     <td>
-                        <a href="/pasien/preview/{{ $pasien->id }}" class="btn btn-sm btn-info">Preview</a>
+                        <a href="{{ route('pasien.preview', $pasien->id) }}" class="btn btn-sm btn-info">Preview</a>
                         @if (auth()->user()->role != 'Dokter')
                             <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalEditPasien{{ $pasien->id }}">Edit</button>
                             <a href="/pasien/delete/{{ $pasien->id }}" class="btn btn-sm btn-danger" onclick="return confirm('Anda yakin ingin menghapus data ini ?')">Delete</a>

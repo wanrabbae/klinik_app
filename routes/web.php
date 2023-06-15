@@ -33,7 +33,7 @@ Route::get('/transaction', [TransactionCtrl::class, 'index'])->name('transaction
 
 // PASIEN ROUTES
 Route::get('/pasien', [PasienCtrl::class, 'index'])->name('pasien.index')->middleware('auth');
-Route::get('/pasien/preview/{id}', [PasienCtrl::class, 'preview'])->name('pasien.preview')->middleware('auth');
+Route::get('/preview_pasien/{id}', [PasienCtrl::class, 'index'])->name('pasien.preview')->middleware('auth');
 Route::post('/pasien', [PasienCtrl::class, 'store'])->name('pasien.post')->middleware('auth');
 Route::post('/pasien/update/{id}', [PasienCtrl::class, 'update'])->name('pasien.put')->middleware('auth');
 Route::get('/pasien/delete/{id}', [PasienCtrl::class, 'delete'])->name('pasien.delete')->middleware('auth');

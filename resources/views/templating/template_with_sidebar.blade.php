@@ -85,18 +85,25 @@
                 <ul class="list-unstyled">
                     <li id="menu_sidebar" class="test">
                         <a href="/">
-                            <i class="iconsminds-shop-4"></i>
+                            <i class="iconsminds-dashboard"></i>
                             <span>Dashboards</span>
                         </a>
                     </li>
+                    @if (auth()->user()->role != 'Dokter')
+                        <li id="menu_sidebar" class="test">
+                            <a href="/infografis">
+                                <i class="iconsminds-line-chart-1"></i> Infografis
+                            </a>
+                        </li>
+                    @endif
                     <li id="menu_sidebar" class="test">
                         <a href="/transaction">
-                            <i class="iconsminds-digital-drawing"></i> Transaksi
+                            <i class="iconsminds-optimization"></i> Transaksi
                         </a>
                     </li>
                     <li id="menu_sidebar" class="test">
                         <a href="/pasien">
-                            <i class="iconsminds-user"></i> Data Pasien
+                            <i class="iconsminds-male-female"></i> Data Pasien
                         </a>
                     </li>
                     <li id="menu_sidebar" class="test">
@@ -108,22 +115,16 @@
                     @if (auth()->user()->role != 'Dokter')
                         <li id="menu_sidebar" class="test">
                             <a href="/dokter">
-                                <i class="iconsminds-three-arrow-fork"></i> Data Dokter
+                                <i class="iconsminds-user"></i> Data Dokter
                             </a>
                         </li>
 
                         <li id="menu_sidebar" class="test">
                             <a href="/kinerja">
-                                <i class="iconsminds-bucket"></i> Kinerja Dokter
+                                <i class="iconsminds-stethoscope"></i> Kinerja Dokter
                             </a>
                         </li>
                     @endif
-
-                    <li id="menu_sidebar" class="test">
-                        <a href="/infografis">
-                            <i class="iconsminds-user"></i> Infografis
-                        </a>
-                    </li>
 
                     {{-- <li>
                         <a href="https://dore-jquery-docs.coloredstrategies.com" target="_blank">
@@ -632,6 +633,7 @@
     <script src="js/dore.script.js"></script>
     <script src="js/scripts.js"></script>
     {{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -641,6 +643,18 @@
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
     <script>
         $(document).ready(function() {
+
+            var doc = new jsPDF('p', 'mm', [148, 210]);
+            var specialElementHandlers = {
+                '#editor': function(element, renderer) {
+                    return true;
+                }
+            };
+
+            $('#printPdf').click(function() {
+                doc.fromHTML($('#struk').html());
+                doc.save('sample-struk.pdf');
+            });
 
             var minEl = $('#minFee');
             var maxEl = $('#maxFee');

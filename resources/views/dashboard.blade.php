@@ -7,6 +7,7 @@
 
     table {
         width: 100%;
+        font-size: 10px;
     }
 
     table tr th {
@@ -43,6 +44,20 @@
                     </div>
 
                     <div class="form-group mb-3">
+                        <label for="">Dokter</label>
+                        <select name="dokter_plih" id="dokter_pilih" class="form-control">
+                            @if (auth()->user()->role == 'Dokter')
+                                <option value="{{ auth()->user()->id }}">{{ auth()->user()->nama }}</option>
+                            @else
+                                <option value="" selected>Pilih Dokter</option>
+                                @foreach ($data_dokter as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
                         <label for="">Keterangan</label>
                         <textarea onchange="keteranganChange()" class="form-control" name="keterangan" id="keterangan" cols="30" rows="4"></textarea>
                     </div>
@@ -63,7 +78,7 @@
                                 <div class="d-flex align-items-center mb-3">
                                     <div class="mr-2">
                                         <label for="">Harga</label>
-                                        <input type="number" id="hargaFirst" readonly name="harga[]" class="form-control form-input">
+                                        <input type="number" id="hargaFirst" name="harga[]" class="form-control form-input">
                                     </div>
                                     <div class="mr-2">
                                         <label for="">Quantity</label>
@@ -92,25 +107,26 @@
 
         <div class="col-md-6">
             <h2>Preview Struk</h2>
-            <div class="card rounded-2 ">
+            <div class="card rounded-2">
+                <div id="editor"></div>
                 <div class="card-body struk" id="struk">
                     <div class="d-flex justify-content-end">
-                        <p>Bandung 23/03/2023</p>
+                        <p style="font-size: 10px">Bandung 23/03/2023</p>
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <p class="fw-bold" style="font-weight: bold;">RINCIAN RAWAT JALAN PASIEN</p>
-                        <p>No. <span id="noTrx"></span></p>
+                        <p style="font-size: 10px; font-weight: bold;">RINCIAN RAWAT JALAN PASIEN</p>
+                        <p style="font-size: 10px">No. <span id="noTrx"></span></p>
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <p>PRAKTEK DOKTER GIGI SPESIALISTIK</p>
-                        <p>Nama Pasien: <span id="pasien_name"></span></p>
+                        <p style="font-size: 10px">PRAKTEK DOKTER GIGI SPESIALISTIK</p>
+                        <p style="font-size: 10px">Nama Pasien: <span id="pasien_name"></span></p>
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <p class="mr-2">Jl. Tanjung Sari No.32, Antapani. Bandung 08112276161</p>
-                        <p>No telp Pasien: <span id="telp_pasien"></span></p>
+                        <p style="font-size: 10px" class="mr-2">Jl. Tanjung Sari No.32, Antapani. Bandung 08112276161</p>
+                        <p style="font-size: 10px">No telp Pasien: <span id="telp_pasien"></span></p>
                     </div>
 
                     <div class="my-2">
@@ -125,41 +141,34 @@
                                     <th>Jumlah</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    {{-- <td>Tindakan 1</td>
-                                    <td>1</td>
-                                    <td>100000</td>
-                                    <td>10%</td>
-                                    <td>90000</td> --}}
-                                </tr>
+                            <tbody id="rowTindakan">
+
                             </tbody>
                         </table>
                     </div>
 
                     <div class="d-flex justify-content-end">
-                        <strong>Total: </strong>
+                        <strong>Total: <span id="totalJumlah"></span></strong>
                     </div>
 
                     <div class="dokterKet">
-                        <p>Keterangan Dokter: </p>
-                        <p id="keteranganDokter"></p>
+                        <p style="font-size: 10px">Keterangan Dokter: </p>
+                        <p style="font-size: 10px" id="keteranganDokter"></p>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <div>
-                            <p>Perhatian: </p>
-                            <p>Kuitansi ini merupakan bukti pembayaran</p>
+                            <p style="font-size: 10px">Perhatian: </p>
+                            <p style="font-size: 10px">Kuitansi ini merupakan bukti pembayaran</p>
                         </div>
                         <div class="d-flex flex-column">
-                            <p>Hormat Kami, </p>
-                            <p style="margin-top: 50px;">(.........................)</p>
+                            <p style="font-size: 10px">Hormat Kami, </p>
+                            <p style="font-size: 10px" style="margin-top: 50px;">(.........................)</p>
                         </div>
                     </div>
                 </div>
                 <center>
-                    <button id="printPdf" class="btn btn-lg btn-info my-3" onclick="printDiv('struk')">Download PDF</button>
+                    <button id="printPdf" class="btn btn-lg btn-info my-3">Download PDF</button>
                 </center>
             </div>
 
@@ -176,6 +185,8 @@
             const keteranganDokter = document.getElementById('keteranganDokter')
             let idPasien
             const tindakanShow = document.getElementById('tindakanList')
+            const rowTindakan = document.getElementById('rowTindakan')
+            const totalJumlah = document.getElementById('totalJumlah')
             const listTindakanData = new Array()
             let tindakanDataValues = []
 
@@ -191,6 +202,7 @@
                 wrapperFormMain.className = "form-row d-flex align-items-center"
 
                 var wrapperForm = document.createElement("div")
+                wrapperForm.style.width = "90%"
 
                 var formRow = document.createElement("div");
                 formRow.className = "form-group mb-3";
@@ -233,7 +245,7 @@
                 hargaInput.type = "number";
                 hargaInput.className = "form-control";
                 hargaInput.name = "harga[]";
-                hargaInput.readOnly = true;
+                // hargaInput.readOnly = true;
 
                 wrapperInputHarga.appendChild(labelHargaInput)
                 wrapperInputHarga.appendChild(hargaInput)
@@ -304,8 +316,10 @@
             }
 
             function previewAction() {
+                rowTindakan.innerHTML = ''
                 var formRows = document.getElementsByClassName("form-row");
                 var valuesArray = [];
+                var dataJumlahKeseluruhan = []
 
                 for (var i = 0; i < formRows.length; i++) {
                     var formRow = formRows[i];
@@ -321,9 +335,32 @@
                         tindakanInput: tindakanInput.value.split("-")[1],
                     };
 
+                    const totalWithQty = parseInt(valueObject.quantityInput) * parseInt(valueObject.hargaInput)
+                    const discountAmount = (totalWithQty * parseInt(valueObject.diskonInput)) / 100
+
+                    const jumlahKalkulasi = valueObject.diskonInput ? totalWithQty - discountAmount : totalWithQty
+
+                    rowTindakan.innerHTML += `
+                        <tr>
+                            <td>${i + 1}</td>
+                            <td>${valueObject.tindakanInput}</td>
+                            <td>${valueObject.quantityInput}</td>
+                            <td>${valueObject.hargaInput}</td>
+                            <td>${valueObject.diskonInput ? valueObject.diskonInput + "%" : ""}</td>
+                            <td>
+                                ${jumlahKalkulasi}
+                            </td>
+                        </tr>
+                    `
+                    dataJumlahKeseluruhan.push(jumlahKalkulasi)
                     valuesArray.push(valueObject);
                 }
 
+
+                var totalJumlahKalkulasi = dataJumlahKeseluruhan.reduce(function(accumulator, currentValue) {
+                    return accumulator + currentValue;
+                }, 0)
+                totalJumlah.textContent = "Rp. " + totalJumlahKalkulasi
                 console.log(valuesArray);
             }
 
@@ -477,7 +514,6 @@
             }
 
             keterangan.addEventListener('input', function(evt) {
-                console.log(this.value);
                 keteranganDokter.textContent = keterangan.value
             })
         </script>
