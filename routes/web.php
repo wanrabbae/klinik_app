@@ -30,6 +30,7 @@ Route::get('/', [DashboardCtrl::class, 'index'])->name('dashboard')->middleware(
 
 // TRANSACTION ROUTES
 Route::get('/transaction', [TransactionCtrl::class, 'index'])->name('transaction.index')->middleware('auth');
+Route::post('/transaction', [TransactionCtrl::class, 'store'])->name('transaction.store')->middleware('auth');
 
 // PASIEN ROUTES
 Route::get('/pasien', [PasienCtrl::class, 'index'])->name('pasien.index')->middleware('auth');

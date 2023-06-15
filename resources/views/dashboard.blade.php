@@ -27,11 +27,11 @@
         <div class="col-md-6">
             <h2>Masukkan Tindakan</h2>
 
-            <form method="post" class="card">
+            <form method="post" class="card" id="createTransaction">
                 <div class="card-body">
                     <div class="form-group mb-3">
                         <label for="">Nama Pasien</label>
-                        <select name="pasien" onchange="pilihPasien()" id="pasien" class="form-control">
+                        <select name="pasien" required onchange="pilihPasien()" id="pasien" class="form-control">
                             <option value="">Pilih Pasien</option>
                             @foreach ($data_pasien as $item)
                                 <option value="{{ $item->id }}-{{ $item->nama_pasien }}-{{ $item->nomor_rekam_medis }}-{{ $item->telepon }}">{{ $item->nama_pasien }}</option>
@@ -45,9 +45,9 @@
 
                     <div class="form-group mb-3">
                         <label for="">Dokter</label>
-                        <select name="dokter_plih" id="dokter_pilih" class="form-control">
+                        <select name="dokter_plih" required id="dokter_pilih" class="form-control">
                             @if (auth()->user()->role == 'Dokter')
-                                <option value="{{ auth()->user()->id }}">{{ auth()->user()->nama }}</option>
+                                <option value="{{ auth()->user()->id }}" selected>{{ auth()->user()->nama }}</option>
                             @else
                                 <option value="" selected>Pilih Dokter</option>
                                 @foreach ($data_dokter as $item)
@@ -180,6 +180,7 @@
             const pasienChoose = document.getElementById('pasien')
             const nomor_medis = document.getElementById('nomor_medis')
             const pasien_name = document.getElementById('pasien_name')
+            const dokter_pilih = document.getElementById('dokter_pilih')
             const telp_pasien = document.getElementById('telp_pasien')
             const keterangan = document.getElementById('keterangan')
             const keteranganDokter = document.getElementById('keteranganDokter')
@@ -187,6 +188,9 @@
             const tindakanShow = document.getElementById('tindakanList')
             const rowTindakan = document.getElementById('rowTindakan')
             const totalJumlah = document.getElementById('totalJumlah')
+
+            const createTransaction = document.getElementById('createTransaction')
+
             const listTindakanData = new Array()
             let tindakanDataValues = []
 
@@ -361,135 +365,9 @@
                     return accumulator + currentValue;
                 }, 0)
                 totalJumlah.textContent = "Rp. " + totalJumlahKalkulasi
-                console.log(valuesArray);
             }
 
-            // let tindakanList = []
-
-            // tindakanList.push({
-            //     id: Math.floor(10000 + Math.random() * 90000),
-            //     tindakan: "",
-            //     quantity: "",
-            //     diskon: "",
-            // })
-
-            // function tambahTindak() {
-            //     console.log("TEST");
-            //     tindakanList.push({
-            //         id: Math.floor(10000 + Math.random() * 90000),
-            //         tindakan: "",
-            //         quantity: "",
-            //         diskon: "",
-            //     })
-            //     renderTindakan()
-            // }
-
-            // function renderTindakan() {
-
-            //     // Store the selected option value
-            //     const selectedOptions = Array.from(tindakanShow.querySelectorAll('form-select')).map(select => select.value);
-
-            //     // Store the input values
-            //     const tindakanInputs = Array.from(tindakanShow.querySelectorAll('.form-input'));
-
-            //     tindakanShow.innerHTML = ''
-            //     tindakanList.map(tindakan => {
-            //         tindakanShow.innerHTML += `
-    //     <div class="form-group mb-3">
-    //                 <label for="">Tindakan</label>
-    //                 <select name="tindakan" onchange="console.log(this.value)" id="tindakan" class="form-control form-select">
-    //                     <option value="">Pilih Tindakan</option>
-    //                     @foreach ($data_tindakan as $item)
-    //                         <option value="{{ $item->id }}-{{ $item->nama_tindakan }}-{{ $item->total_harga }}">{{ $item->nama_tindakan }}</option>
-    //                     @endforeach
-    //                 </select>
-    //             </div>
-    //             <div class="d-flex mb-3">
-    //                 <div class="mr-2">
-    //                     <label for="">Harga</label>
-    //                     <input type="number" oninput="console.log(this.value)" name="harga" class="form-control form-input">
-    //                 </div>
-    //                 <div class="mr-2">
-    //                     <label for="">Quantity</label>
-    //                     <input type="number" name="quantity" class="form-control form-input">
-    //                 </div>
-    //                 <div class="mr-2">
-    //                     <label for="">Diskon (%)</label>
-    //                     <input type="number" name="diskon" class="form-control form-input">
-    //                 </div>
-    //                 <div class="mr-2">
-    //                     <button type="button" class="btn btn-sm btn-danger" onclick="${() => {
-    //                             console.log("ID: " + tindakan.id);
-    //                         tindakanList.filter(tindak => tindak.id !== tindakan.id );
-    //                         renderTindakan(); }
-    //                     }">-</button>
-    //                 </div>
-    //             </div>
-    //     `
-            //     })
-
-            //     // Set the selected option value
-            //     const selectElements = tindakanShow.querySelectorAll('form-select');
-            //     selectedOptions.forEach((optionValue, index) => {
-            //         if (index < selectElements.length) {
-            //             selectElements[index].value = optionValue;
-            //         }
-            //     });
-
-            //     // Set the input values
-            //     tindakanInputs.forEach((input, index) => {
-            //         if (index < tindakanList.length) {
-            //             input.value = tindakanList[index].tindakan;
-            //             // Set other input values as needed
-            //         }
-            //     });
-            // }
-
-            // renderTindakan()
-
             noTrx.textContent = `DC-${Math.floor(1000000 + Math.random() * 9000000)}`
-
-            // function printDiv(className) {
-            //     // Get the div element with the specified class
-            //     const divToPrint = document.querySelector(`.${className}`);
-
-            //     // Check if the div exists
-            //     if (divToPrint) {
-            //         // Clone the div element and its contents
-            //         const clonedDiv = divToPrint.cloneNode(true);
-
-            //         // Create a new window to print the document
-            //         const printWindow = window.open('', '_blank');
-
-            //         // Specify the A5 dimensions in millimeters (148mm x 210mm)
-            //         const paperWidth = 148;
-            //         const paperHeight = 210;
-
-            //         // Set the print window's content to the cloned div
-            //         printWindow.document.write('<html><head><title>A5 Document</title></head><body></body></html>');
-            //         printWindow.document.getElementsByTagName('body')[0].appendChild(clonedDiv);
-            //         printWindow.document.close();
-
-            //         // Wait for the cloned div to finish loading
-            //         clonedDiv.onload = function() {
-            //             // Set the print window's paper size and dimensions
-            //             printWindow.document.getElementsByTagName('body')[0].style.width = `${paperWidth}mm`;
-            //             printWindow.document.getElementsByTagName('body')[0].style.height = `${paperHeight}mm`;
-
-            //             // Wait for the document to load in the print window
-            //             printWindow.addEventListener('load', function() {
-            //                 // Print the document
-            //                 printWindow.print();
-            //                 // Close the print window after printing
-            //                 printWindow.close();
-            //             });
-            //         };
-            //     } else {
-            //         console.log(`No element found with class '${className}'.`);
-            //     }
-
-            // }
-
 
             function printDiv(divName) {
                 var printContents = document.getElementById(divName).innerHTML;
@@ -515,6 +393,70 @@
 
             keterangan.addEventListener('input', function(evt) {
                 keteranganDokter.textContent = keterangan.value
+            })
+
+            createTransaction.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                var formRows = document.getElementsByClassName("form-row");
+                var valuesArray = [];
+
+                for (var i = 0; i < formRows.length; i++) {
+                    var formRow = formRows[i];
+                    var quantityInput = formRow.querySelector('input[name="quantity[]"]');
+                    var diskonInput = formRow.querySelector('input[name="diskon[]"]');
+                    var hargaInput = formRow.querySelector('input[name="harga[]"]');
+                    var tindakanInput = formRow.querySelector('select[name="tindakan[]"]');
+
+                    var valueObject = {
+                        quantityInput: quantityInput.value,
+                        diskonInput: diskonInput.value,
+                        hargaInput: hargaInput.value,
+                        tindakanInput: tindakanInput.value.split("-")[1],
+                    };
+
+                    const totalWithQty = parseInt(valueObject.quantityInput) * parseInt(valueObject.hargaInput)
+                    const discountAmount = (totalWithQty * parseInt(valueObject.diskonInput)) / 100
+
+                    const jumlahKalkulasi = valueObject.diskonInput ? totalWithQty - discountAmount : totalWithQty
+
+                    valueObject['subTotal'] = jumlahKalkulasi
+
+                    valuesArray.push(valueObject);
+                }
+
+                let data = {
+                    user_id: dokter_pilih.value,
+                    patient_id: pasienChoose.value.split("-")[0],
+                    keterangan: keterangan.value,
+                    nomor_transaksi: noTrx.textContent,
+                    tindakans: valuesArray,
+                }
+
+                // POST TRANSACTION
+                fetch("{{ route('transaction.store') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(function(response) {
+                        if (response.status === 201) {
+                            console.log("Request successful. Status code:", response.status);
+                            return response.json();
+                        } else {
+                            throw new Error("Request failed with status code: " + response.status);
+                        }
+                    })
+                    .then(function(responseData) {
+                        window.location.reload();
+                    })
+                    .catch(function(error) {
+                        alert('Gagal membuat tindakan, coba lagi nanti!')
+                        console.error("Error:", error);
+                    });
             })
         </script>
 

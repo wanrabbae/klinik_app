@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Dental Care</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" href="font/iconsmind-s/css/iconsminds.css" />
     <link rel="stylesheet" href="font/simple-line-icons/css/simple-line-icons.css" />
@@ -659,9 +660,21 @@
             var minEl = $('#minFee');
             var maxEl = $('#maxFee');
 
+            var table = $('#datatable').DataTable({
+                dom: 'Bfrtip',
+                scrollX: true,
+                buttons: [{
+                    extend: 'excel',
+                    className: 'btn btn-success',
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                    }
+                }]
+            });
+
+            // if (window.location.pathname = "/tindakan") {
             // Custom range filtering function
             $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
-                console.log(parseFloat(data[5].split(" ")[1].replace('.', '')));
                 var min = parseInt(minEl.val(), 10);
                 var max = parseInt(maxEl.val(), 10);
                 var total_harga = parseFloat(data[5].split(" ")[1].replace('.', '')) || 0; // use data for the total_harga column
@@ -678,24 +691,13 @@
                 return false;
             });
 
-            var table = $('#datatable').DataTable({
-                dom: 'Bfrtip',
-                scrollX: true,
-                buttons: [{
-                    extend: 'excel',
-                    className: 'btn btn-success',
-                    exportOptions: {
-                        columns: 'th:not(:last-child)'
-                    }
-                }]
-            });
-
             minEl.on('input', function() {
                 table.draw();
             });
             maxEl.on('input', function() {
                 table.draw();
             });
+            // }
 
             $('#menu_sidebar').on('click', function() {
                 // $('#menu_sidebar').removeClass('active')
