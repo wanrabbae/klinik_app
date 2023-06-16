@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardCtrl;
 use App\Http\Controllers\DokterCtrl;
 use App\Http\Controllers\InfografisCtrl;
 use App\Http\Controllers\PasienCtrl;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\TindakanCtrl;
 use App\Http\Controllers\TransactionCtrl;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,7 @@ Route::get('/', [DashboardCtrl::class, 'index'])->name('dashboard')->middleware(
 // TRANSACTION ROUTES
 Route::get('/transaction', [TransactionCtrl::class, 'index'])->name('transaction.index')->middleware('auth');
 Route::post('/transaction', [TransactionCtrl::class, 'store'])->name('transaction.store')->middleware('auth');
+Route::post('/download-nota', [PDFController::class, 'downloadPDF']);
 
 // PASIEN ROUTES
 Route::get('/pasien', [PasienCtrl::class, 'index'])->name('pasien.index')->middleware('auth');
@@ -53,6 +55,7 @@ Route::post('/dokter/update/{id}', [DokterCtrl::class, 'update'])->name('dokter.
 Route::get('/dokter/delete/{id}', [DokterCtrl::class, 'delete'])->name('dokter.delete')->middleware('auth');
 Route::get('/kinerja', [DokterCtrl::class, 'kinerja'])->name('dokter.kinerja.index')->middleware('auth');
 Route::get('/lapor_kinerja', [DokterCtrl::class, 'kinerjaPost'])->name('dokter.kinerja.laporan')->middleware('auth');
+Route::get('/kinerja/download', [PDFController::class, 'downloadExcel'])->name('dokter.kinerja.laporan')->middleware('auth');
 
 
 // INFOGRAFIS ROUTES

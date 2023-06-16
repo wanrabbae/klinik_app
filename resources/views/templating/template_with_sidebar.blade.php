@@ -644,6 +644,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+
     <script>
         $(document).ready(function() {
 
@@ -675,12 +677,11 @@
             });
 
             // var table = $('#table_kinerja').DataTable({
-            //     dom: 'Bfrtip',
-            //     bPaginate: false,
-            //     searching: false,
-            //     paging: false,
-            //     info: false,
-            //     scrollX: true,
+            //     // bPaginate: false,
+            //     // searching: false,
+            //     // paging: false,
+            //     // info: false,
+            //     // scrollX: true,
             //     buttons: [{
             //         extend: 'excel',
             //         className: 'btn btn-success',
@@ -721,7 +722,35 @@
                 // $('#menu_sidebar').removeClass('active')
                 $('#menu_sidebar').addClass('active')
             })
+
+
+
         });
+
+        // const downloadButton = document.getElementById('downloadButton');
+        // downloadButton.addEventListener('click', () => {
+        //     const content = document.getElementById('content');
+        //     html2pdf()
+        //         .set({
+        //             margin: 10,
+        //             filename: 'file.pdf',
+        //             image: {
+        //                 type: 'jpeg',
+        //                 quality: 0.98
+        //             },
+        //             html2canvas: {
+        //                 dpi: 192,
+        //                 letterRendering: true
+        //             },
+        //             jsPDF: {
+        //                 unit: 'mm',
+        //                 format: 'a4',
+        //                 orientation: 'portrait'
+        //             },
+        //         })
+        //         .from(content)
+        //         .save();
+        // });
     </script>
 </body>
 

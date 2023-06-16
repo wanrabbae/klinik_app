@@ -10,6 +10,7 @@
         font-size: 10px;
     }
 
+
     table tr th {
         border-bottom: 2px solid black;
     }
@@ -61,7 +62,7 @@
 
                     <div class="form-group mb-3">
                         <label for="">Keterangan</label>
-                        <textarea onchange="keteranganChange()" class="form-control" name="keterangan" id="keterangan" cols="30" rows="4"></textarea>
+                        <textarea class="form-control" name="keterangan" id="keterangan" cols="30" rows="4"></textarea>
                     </div>
 
                     {{-- TINDAKAN --}}
@@ -170,7 +171,7 @@
                     </div>
                 </div>
                 <center>
-                    <button id="printPdf" class="btn btn-lg btn-info my-3">Download PDF</button>
+                    <button id="downloadButton" class="btn btn-lg btn-info my-3">Download PDF</button>
                 </center>
             </div>
 
@@ -467,6 +468,105 @@
                         console.error("Error:", error);
                     });
             })
+
+            // const downloadButton = document.getElementById('downloadButton');
+            // downloadButton.addEventListener('click', () => {
+            //     const content = document.getElementById('content');
+            //     html2pdf()
+            //         .set({
+            //             margin: 10,
+            //             filename: 'file.pdf',
+            //             image: {
+            //                 type: 'jpeg',
+            //                 quality: 0.98
+            //             },
+            //             html2canvas: {
+            //                 dpi: 192,
+            //                 letterRendering: true
+            //             },
+            //             jsPDF: {
+            //                 unit: 'mm',
+            //                 format: 'a4',
+            //                 orientation: 'portrait'
+            //             },
+            //         })
+            //         .from(content)
+            //         .save();
+            // });
+
+            // Update the JavaScript code to trigger the download
+            const downloadButton = document.getElementById('downloadButton');
+            downloadButton.addEventListener('click', () => {
+                var valuesArray = [];
+                var dataJumlahKeseluruhan = []
+                var totalJumlahKalkulasi = 0
+                var formRows = document.getElementsByClassName("form-row");
+
+                for (var i = 0; i < formRows.length; i++) {
+                    var formRow = formRows[i];
+                    var quantityInput = formRow.querySelector('input[name="quantity[]"]');
+                    var diskonInput = formRow.querySelector('input[name="diskon[]"]');
+                    var hargaInput = formRow.querySelector('input[name="harga[]"]');
+                    var tindakanInput = formRow.querySelector('select[name="tindakan[]"]');
+
+                    var valueObject = {
+                        quantity: quantityInput.value,
+                        discount: diskonInput.value,
+                        biaya: hargaInput.value,
+                        nama_tindakan: tindakanInput.value.split("-")[1],
+                    };
+
+                    const totalWithQty = parseInt(valueObject.quantityInput) * parseInt(valueObject.hargaInput)
+                    const discountAmount = (totalWithQty * parseInt(valueObject.diskonInput)) / 100
+
+                    const jumlahKalkulasi = valueObject.diskonInput ? totalWithQty - discountAmount : totalWithQty
+
+                    valueObject['subtotal'] = jumlahKalkulasi
+
+                    dataJumlahKeseluruhan.push(jumlahKalkulasi)
+                    valuesArray.push(valueObject);
+                }
+
+                totalJumlahKalkulasi = dataJumlahKeseluruhan.reduce(function(accumulator, currentValue) {
+                    return accumulator + currentValue;
+                }, 0)
+
+                fetch(`
+                /download-nota?tanggal={{ $dateNow }}
+                &notrx=${noTrx.textContent}
+                &nama_pasien=${pasienChoose.value.split("-")[1]}
+                &keterangan=${keterangan.value}
+                &notelp=${telp_pasien.textContent}
+                &totally=${totalJumlahKalkulasi}
+                `, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: JSON.stringify({
+                            data_tindakan: valuesArray
+                        })
+                    })
+                    .then(response => response.blob())
+                    .then(blob => {
+                        // Create a temporary URL for the blob
+                        const url = URL.createObjectURL(blob);
+
+                        // Create a link element and simulate a click to trigger the download
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'file.pdf';
+                        a.style.display = 'none';
+                        document.body.appendChild(a);
+                        a.click();
+
+                        // Clean up the temporary URL and remove the link element
+                        URL.revokeObjectURL(url);
+                        document.body.removeChild(a);
+                    })
+                    .catch(error => console.error(error));
+            });
         </script>
 
     </div>

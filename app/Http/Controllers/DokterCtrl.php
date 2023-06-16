@@ -25,23 +25,30 @@ class DokterCtrl extends Controller
 
     public function kinerjaPost(Request $request)
     {
-        $data_kinerja = Transactions::with('dokter', 'pasien', 'transaction_tindak', 'transaction_tindak.tindakan')->where('user_id', '=', $request->dokter)->whereBetween('created_at', [date($request->startDate), date($request->endDate)])->orderBy('created_at')->get()->groupBy(function ($item) {
-            return Carbon::parse($item->created_at)->format('d-F-Y');
-        });
-
+        $data_kinerja = Transactions::with('dokter', 'pasien', 'transaction_tindak', 'transaction_tindak.tindakan')->where('user_id', '=', $request->dokter)->whereBetween('created_at', [date($request->startDate), date($request->endDate)])->get();
+        $total = 0;
         $dataInfo = [];
 
         if ($request->dokter && $request->startDate && $request->endDate) {
             $dokter = User::find($request->dokter);
             $dataInfo = [
                 "nama_dokter" => $dokter->nama,
+                "dokter_id" => $dokter->id,
                 "startDate" => Carbon::parse($request->startDate)->format('d-F-Y'),
                 "endDate" => Carbon::parse($request->endDate)->format('d-F-Y'),
+                "startDate2" => $request->startDate,
+                "endDate2" => $request->endDate,
             ];
         }
 
+        foreach ($data_kinerja as $transaction) {
+            foreach ($transaction->transaction_tindak as $tindakan) {
+                $total += $tindakan->subtotal;
+            }
+        }
+
         $data_dokters = User::where('role', 'Dokter')->get(["id", "nama"]);
-        return view('dokter.kinerja', compact('data_dokters', 'data_kinerja', 'dataInfo'));
+        return view('dokter.kinerja', compact('data_dokters', 'data_kinerja', 'dataInfo', 'total'));
     }
 
     public function store(Request $request)

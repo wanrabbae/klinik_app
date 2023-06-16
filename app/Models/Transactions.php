@@ -12,6 +12,10 @@ class Transactions extends Model
     protected $guarded = [];
     protected $table = 'transactions';
 
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y',
+    ];
+
     public function pasien()
     {
         return $this->belongsTo(Pasiens::class, 'patient_id');

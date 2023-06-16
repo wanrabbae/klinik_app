@@ -55,8 +55,13 @@
     @if ($data_kinerja != null)
         <div class="card mt-3">
             <div class="card-body">
-                <div class="card-title">
-                    Laporan Kinerja Dokter {{ $dataInfo['nama_dokter'] }}, di rentang tanggal {{ $dataInfo['startDate'] }} hingga {{ $dataInfo['endDate'] }}
+                <div class="card-title d-flex justify-content-between" id="testyoyy">
+                    <span>
+                        Laporan Kinerja Dokter {{ $dataInfo['nama_dokter'] }}, di rentang tanggal {{ $dataInfo['startDate'] }} hingga {{ $dataInfo['endDate'] }}
+                    </span>
+                    <a href="/kinerja/download?dokter_id={{ $dataInfo['dokter_id'] }}&startDate={{ $dataInfo['startDate2'] }}&endDate={{ $dataInfo['endDate2'] }}&total={{ $total }}"
+                        class="btn btn-success">Download
+                        Excel</a>
                 </div>
                 <table border="1" cellspacing="0" id="table_kinerja">
                     <thead>
@@ -69,35 +74,31 @@
                             <th scope="col">Harga</th>
                             <th scope="col">Diskon</th>
                             <th scope="col">Subtotal</th>
-                            {{-- <th scope="col">Total</th> --}}
                             <th scope="col">Jasa Medis</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($data_kinerja as $kinerjas => $data_value)
+                        @foreach ($data_kinerja as $transaction)
                             <tr>
-                                <th rowspan="{{ count($data_value) + 1 }}">{{ $kinerjas }}</th>
+                                <td rowspan="{{ count($transaction->transaction_tindak) + 1 }}">{{ $transaction->created_at->format('d-F-Y') }}</td>
+                                <td rowspan="{{ count($transaction->transaction_tindak) + 1 }}">{{ $transaction->nomor_transaksi }}</td>
+                                <td rowspan="{{ count($transaction->transaction_tindak) + 1 }}">{{ $transaction->pasien->nama_pasien }}</td>
                             </tr>
-                            @foreach ($data_value as $transaction)
+                            @foreach ($transaction->transaction_tindak as $tindakan)
                                 <tr>
-                                    <td rowspan="{{ count($transaction->transaction_tindak) + 1 }}">{{ $transaction->nomor_transaksi }}</td>
-                                    <td rowspan="{{ count($transaction->transaction_tindak) + 1 }}">{{ $transaction->pasien->nama_pasien }}</td>
+                                    <td>{{ $tindakan->tindakan->nama_tindakan }}</td>
+                                    <td>{{ $tindakan->quantity }}</td>
+                                    <td>Rp. {{ number_format($tindakan->biaya, 0, ',', '.') }}</td>
+                                    <td>{{ $tindakan->discount }}</td>
+                                    <td>Rp. {{ number_format($tindakan->subtotal, 0, ',', '.') }}</td>
+                                    <td>Rp. {{ number_format($tindakan->tindakan->jasa_medis, 0, ',', '.') }}</td>
                                 </tr>
-                                @foreach ($transaction->transaction_tindak as $tindakan)
-                                    <tr>
-                                        <td>{{ $tindakan->tindakan->nama_tindakan }}</td>
-                                        <td>{{ $tindakan->quantity }}</td>
-                                        <td>{{ $tindakan->biaya }}</td>
-                                        <td>{{ $tindakan->discount }}</td>
-                                        <td>{{ $tindakan->subtotal }}</td>
-                                        {{-- <td>{{ 
-                                $tindakan->discount ? $tindakan->quantity * $tindakan-> : 
-                            }}</td> --}}
-                                        <td>{{ $tindakan->tindakan->jasa_medis }}</td>
-                                    </tr>
-                                @endforeach
                             @endforeach
                         @endforeach
+                        <tr>
+                            <td colspan="5">Total</td>
+                            <td colspan="4"><strong>Rp. {{ number_format($total, 0, ',', '.') }}</strong></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -105,4 +106,11 @@
     @else
         <span></span>
     @endif
+
+    <script>
+        console.log("TEST");
+    </script>
 @endsection
+<script>
+    console.log("TEST");
+</script>
