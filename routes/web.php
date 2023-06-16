@@ -32,7 +32,12 @@ Route::get('/', [DashboardCtrl::class, 'index'])->name('dashboard')->middleware(
 // TRANSACTION ROUTES
 Route::get('/transaction', [TransactionCtrl::class, 'index'])->name('transaction.index')->middleware('auth');
 Route::post('/transaction', [TransactionCtrl::class, 'store'])->name('transaction.store')->middleware('auth');
+Route::get('/transaction/delete/{id}', [TransactionCtrl::class, 'destroy'])->name('transaction.delete')->middleware('auth');
+Route::get('/transaction_preview', [TransactionCtrl::class, 'preview'])->name('transaction.preview')->middleware('auth');
 Route::post('/download-nota', [PDFController::class, 'downloadPDF']);
+
+// TRANSACTION TINDAKAN ROUTES
+Route::get('/transaction/tindakan/delete/{id}', [TransactionCtrl::class, 'destroyTindakan'])->name('transaction_tindakan.delete')->middleware('auth');
 
 // PASIEN ROUTES
 Route::get('/pasien', [PasienCtrl::class, 'index'])->name('pasien.index')->middleware('auth');

@@ -38,12 +38,12 @@
                             <span></span>
                         @endif
                     </td>
-                    <td>{{ $transaction->id }}</td>
+                    <td>{{ count($transaction->transaction_tindak) }}</td>
                     <td>
-                        <a href="{{ route('pasien.preview', $transaction->id) }}" class="btn btn-sm btn-info">Preview</a>
-                        <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalEditPasien{{ $transaction->id }}">Edit</button>
+                        <a href="/transaction_preview?id={{ $transaction->id }}" class="btn btn-sm btn-info">Preview</a>
+                        {{-- <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalEditPasien{{ $transaction->id }}">Edit</button> --}}
                         <a href="/transaction/delete/{{ $transaction->id }}" class="btn btn-sm btn-danger" onclick="return confirm('Anda yakin ingin menghapus data ini ?')">Delete</a>
-                        <a href="/transaction/delete/{{ $transaction->id }}" class="btn btn-sm btn-primary" onclick="return confirm('Anda yakin ingin menghapus data ini ?')">Nota</a>
+                        <a href="#" class="btn btn-sm btn-primary" onclick="return confirm('Anda yakin ingin menghapus data ini ?')">Nota</a>
                     </td>
                 </tr>
             @endforeach

@@ -76,7 +76,7 @@
 
                                             <div class="form-group has-float-label mb-3">
                                                 <label>Tanggal Lahir</label>
-                                                <input class="form-control" type="date" placeholder="" value="{{ date($pasien->tgl_lahir) }}" name="tgl_lahir" />
+                                                <input class="form-control" type="date" placeholder="" value="{{ date('d-m-Y', strtotime($pasien->tgl_lahir)) }}" name="tgl_lahir" />
                                             </div>
 
                                             <div class="form-group has-float-label mb-3">

@@ -15,12 +15,35 @@ class TransactionCtrl extends Controller
         $countData = Transactions::count();
 
         if (auth()->user()->role == "Dokter") {
-            $data_transactions = Transactions::with(['pasien', 'dokter', 'transaction_tindak'])->where('user_id', auth()->user()->id)->get();
+            $data_transactions = Transactions::with(['pasien', 'dokter', 'transaction_tindak', 'transaction_tindak.tindakan'])->where('user_id', auth()->user()->id)->get();
 
             $countData = Transactions::where('user_id', auth()->user()->id)->count();
         }
 
         return view('transaction.transaction', compact('data_transactions', 'countData'));
+    }
+
+    public function destroy($id)
+    {
+        $transaction = Transactions::find($id);
+
+        if (!$transaction) {
+            return back()->with("error", "Transaction tidak ditemukan");
+        }
+
+        $transaction->destroy($id);
+        return back()->with('success', 'Berhasil menghapus transaksi');
+    }
+
+    public function preview(Request $request)
+    {
+        $transaction = Transactions::with(['pasien', 'dokter', 'transaction_tindak', 'transaction_tindak.tindakan'])->where('id', $request->query('id'))->first();
+
+        if (!$transaction) {
+            return back()->with("error", "Transaction tidak ditemukan");
+        }
+
+        return view('transaction.transaction_preview', compact('transaction'));
     }
 
     public function store(Request $request)
@@ -51,5 +74,19 @@ class TransactionCtrl extends Controller
         }
 
         return response()->json($request->all(), 201);
+    }
+
+    // TRANSACTION TINDAKAN CTRL
+
+    public function destroyTindakan($id)
+    {
+        $transaction = TransactionTindakan::find($id);
+
+        if (!$transaction) {
+            return back()->with("error", "Transaction tidak ditemukan");
+        }
+
+        $transaction->destroy($id);
+        return back()->with('success', 'Berhasil menghapus tindakan');
     }
 }
