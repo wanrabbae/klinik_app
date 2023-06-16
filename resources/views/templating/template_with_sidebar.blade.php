@@ -84,43 +84,43 @@
         <div class="main-menu">
             <div class="scroll">
                 <ul class="list-unstyled">
-                    <li id="menu_sidebar" class="test">
+                    <li id="menu_sidebar" class="test {{ $isActiveDashboard ?? '' }}">
                         <a href="/">
                             <i class="iconsminds-dashboard"></i>
                             <span>Dashboards</span>
                         </a>
                     </li>
                     @if (auth()->user()->role != 'Dokter')
-                        <li id="menu_sidebar" class="test">
+                        <li id="menu_sidebar" class="test {{ $isActiveInfografis ?? '' }}">
                             <a href="/infografis">
                                 <i class="iconsminds-line-chart-1"></i> Infografis
                             </a>
                         </li>
                     @endif
-                    <li id="menu_sidebar" class="test">
+                    <li id="menu_sidebar" class="test {{ $isActiveTrx ?? '' }}">
                         <a href="/transaction">
                             <i class="iconsminds-optimization"></i> Transaksi
                         </a>
                     </li>
-                    <li id="menu_sidebar" class="test">
+                    <li id="menu_sidebar" class="test {{ $isActivePasien ?? '' }}">
                         <a href="/pasien">
                             <i class="iconsminds-male-female"></i> Data Pasien
                         </a>
                     </li>
-                    <li id="menu_sidebar" class="test">
+                    <li id="menu_sidebar" class="test {{ $isActiveTindakan ?? '' }}">
                         <a href="/tindakan">
                             <i class="iconsminds-pantone"></i> Data Tindakan
                         </a>
                     </li>
 
                     @if (auth()->user()->role != 'Dokter')
-                        <li id="menu_sidebar" class="test">
+                        <li id="menu_sidebar" class="test {{ $isActiveDokter ?? '' }}">
                             <a href="/dokter">
                                 <i class="iconsminds-user"></i> Data Dokter
                             </a>
                         </li>
 
-                        <li id="menu_sidebar" class="test">
+                        <li id="menu_sidebar" class="test {{ $isActiveKinerja ?? '' }}">
                             <a href="/kinerja">
                                 <i class="iconsminds-stethoscope"></i> Kinerja Dokter
                             </a>

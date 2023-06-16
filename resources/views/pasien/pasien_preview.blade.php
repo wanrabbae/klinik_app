@@ -1,4 +1,4 @@
-@extends('templating.template_with_sidebar')
+@extends('templating.template_with_sidebar', ['isActivePasien' => 'active'])
 <style>
     /* table, */
     th,

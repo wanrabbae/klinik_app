@@ -1,4 +1,4 @@
-@extends('templating.template_with_sidebar')
+@extends('templating.template_with_sidebar', ['isActiveTrx' => 'active'])
 <style>
     /* table, */
     th,
@@ -18,12 +18,18 @@
         </div>
     @endif
 
+    @if (session()->has('error'))
+        <div class="alert alert-danger p-2 my-2" role="alert">
+            {{ session()->get('error') }}
+        </div>
+    @endif
+
     <div class="card">
         <div class="card-body">
             <p class="text-lg" style="font-size: 18px;">Nomor Transaksi: <strong>{{ $transaction->nomor_transaksi }}</strong></p>
             <p class="text-lg" style="font-size: 18px;">Tanggal Transaksi: <strong>{{ $transaction->created_at->format('d-F-Y') }}</strong></p>
             <p class="text-lg" style="font-size: 18px;">Nama Pasien: <strong>{{ $transaction->pasien->nama_pasien }}</strong></p>
-            <p class="text-lg" style="font-size: 18px;">No Rekam Medis: <strong>{{ $transaction->pasien->no_rekam_medis }}</strong></p>
+            <p class="text-lg" style="font-size: 18px;">No Rekam Medis: <strong>{{ $transaction->pasien->nomor_rekam_medis }}</strong></p>
             <p class="text-lg" style="font-size: 18px;">Alamat: <strong>{{ $transaction->pasien->alamat }}</strong></p>
             <p class="text-lg" style="font-size: 18px;">No. Telp: <strong>{{ $transaction->pasien->telepon }}</strong></p>
             <p class="text-lg" style="font-size: 18px;">Transaksi ke: <strong>{{ $transaction->id }}</strong></p>
@@ -59,7 +65,7 @@
             <div class="mt-5">
                 <div class="d-flex justify-content-between mb-3 align-items-center">
                     <p class="text-lg" style="font-size: 18px;" class="text-muted">List Tindakan: </p>
-                    <button class="btn btn-success">Tambah Tindakan</button>
+                    <button class="btn btn-success" data-toggle="modal" data-target="#modalCreateTindakan">Tambah Tindakan</button>
                 </div>
 
                 <table border="1" cellspacing="0" style="width: 100%; text-align: center;">
@@ -82,8 +88,40 @@
                                 <td>{{ $tindakan->discount }}</td>
                                 <td>{{ $tindakan->subtotal }}</td>
                                 <td>
-                                    <button class="btn btn-info">Edit</button>
-                                    <a href="/transaction/tindakan/delete/{{ $tindakan->id }}" class="btn btn-danger">Delete</a>
+                                    <button class="btn btn-info" data-toggle="modal" data-target="#modalEditTindakan{{ $tindakan->id }}">Edit</button>
+                                    <a href="/transaction/tindakan/delete/{{ $tindakan->id }}" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus data ini ?')">Delete</a>
+
+
+                                    <div class="modal fade" id="modalEditTindakan{{ $tindakan->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Edit Tindakan</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form action="/transaction/tindakan/edit" method="post">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <input type="hidden" name="tindakan_id" value="{{ $tindakan->id }}">
+                                                        <div class="form-group mb-3">
+                                                            <label for="" style="text-align: left;">Quantity</label>
+                                                            <input class="form-control" name="quantity" type="number" required id="quantityEdit" value="{{ $tindakan->quantity }}" />
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="">Diskon (%)</label>
+                                                            <input class="form-control" name="diskon" type="number" required id="diskonEdit" value="{{ $tindakan->discount }}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -92,4 +130,57 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modalCreateTindakan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Tindakan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/transaction/tindakan" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="trx_id" value="{{ $transaction->id }}">
+                        <div class="form-group has-float-label mb-3">
+                            <label for="">Nama Tindakan</label>
+                            <select onchange="assignValueTindakan(this)" required class="form-control" name="tindakan_id" id="tindakan_id">
+                                <option value="" selected>Pilih Tindakan</option>
+                                @foreach ($data_tindakan as $item)
+                                    <option value="{{ $item->id }}-{{ $item->nama_tindakan }}-{{ $item->total_harga }}">{{ $item->nama_tindakan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group has-float-label mb-3">
+                            <label for="">Biaya</label>
+                            <input class="form-control" name="biaya" type="number" required id="biaya" />
+                        </div>
+                        <div class="form-group has-float-label mb-3">
+                            <label for="">Quantity</label>
+                            <input class="form-control" name="quantity" type="number" required id="quantity" />
+                        </div>
+                        <div class="form-group has-float-label mb-3">
+                            <label for="">Diskon (%)</label>
+                            <input class="form-control" name="diskon" type="number" required id="diskon" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const biaya = document.getElementById('biaya')
+
+        function assignValueTindakan(selectElement) {
+            console.log(selectElement.value);
+            biaya.value = selectElement.value.split("-")[2]
+        }
+    </script>
 @endsection

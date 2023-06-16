@@ -1,4 +1,4 @@
-@extends('templating.template_with_sidebar')
+@extends('templating.template_with_sidebar', ['isActiveKinerja' => 'active'])
 <style>
     table {
         width: 100%;

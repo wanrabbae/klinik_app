@@ -1,4 +1,4 @@
-@extends('templating.template_with_sidebar')
+@extends('templating.template_with_sidebar', ['isActiveInfografis' => 'active'])
 
 @section('content')
     <h1>Infografis</h1>

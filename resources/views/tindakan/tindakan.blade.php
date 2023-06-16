@@ -1,4 +1,4 @@
-@extends('templating.template_with_sidebar')
+@extends('templating.template_with_sidebar', ['isActiveTindakan' => 'active'])
 <style>
     .inputRange:focus {
         outline: none;

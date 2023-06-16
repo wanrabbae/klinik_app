@@ -1,4 +1,4 @@
-@extends('templating.template_with_sidebar')
+@extends('templating.template_with_sidebar', ['isActiveTrx' => 'active'])
 
 @section('content')
     <h1>Transactions</h1>
@@ -42,8 +42,8 @@
                     <td>
                         <a href="/transaction_preview?id={{ $transaction->id }}" class="btn btn-sm btn-info">Preview</a>
                         {{-- <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalEditPasien{{ $transaction->id }}">Edit</button> --}}
-                        <a href="/transaction/delete/{{ $transaction->id }}" class="btn btn-sm btn-danger" onclick="return confirm('Anda yakin ingin menghapus data ini ?')">Delete</a>
                         <a href="#" class="btn btn-sm btn-primary" onclick="return confirm('Anda yakin ingin menghapus data ini ?')">Nota</a>
+                        <a href="/transaction/delete/{{ $transaction->id }}" class="btn btn-sm btn-danger" onclick="return confirm('Anda yakin ingin menghapus data ini ?')">Delete</a>
                     </td>
                 </tr>
             @endforeach

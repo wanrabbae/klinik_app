@@ -1,4 +1,4 @@
-@extends('templating.template_with_sidebar')
+@extends('templating.template_with_sidebar', ['isActiveDokter' => 'active'])
 
 @section('content')
     <h1>Data Pokok Dokter</h1>
