@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="css/main.css" />
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.4.1/css/dataTables.dateTime.min.css">
 </head>
 
 <body id="app-container" class="menu-default show-spinner">
@@ -645,6 +646,8 @@
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/datetime/1.4.1/js/dataTables.dateTime.min.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -723,6 +726,50 @@
                 $('#menu_sidebar').addClass('active')
             })
 
+            var minDate, maxDate;
+
+            $.fn.dataTable.ext.search.push(
+                function(settings, data, dataIndex) {
+                    var min = minDate.val();
+                    var max = maxDate.val();
+                    var date = new Date(data[2]);
+
+                    if (
+                        (min === null && max === null) ||
+                        (min === null && date <= max) ||
+                        (min <= date && max === null) ||
+                        (min <= date && date <= max)
+                    ) {
+                        return true;
+                    }
+                    return false;
+                }
+            );
+
+            minDate = new DateTime($('#minDate'), {
+                format: 'MMMM Do YYYY'
+            });
+            maxDate = new DateTime($('#maxDate'), {
+                format: 'MMMM Do YYYY'
+            });
+
+            // DataTables initialisation
+            var table = $('#transactions_table').DataTable({
+                dom: 'Bfrtip',
+                scrollX: true,
+                buttons: [{
+                    extend: 'excel',
+                    className: 'btn btn-success',
+                    exportOptions: {
+                        columns: 'th:not(:last-child)'
+                    }
+                }]
+            });
+
+            // Refilter the table
+            $('#minDate, #maxDate').on('change', function() {
+                table.draw();
+            });
 
 
         });

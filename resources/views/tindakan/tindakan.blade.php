@@ -1,12 +1,11 @@
 @extends('templating.template_with_sidebar', ['isActiveTindakan' => 'active'])
 <style>
-    .inputRange:focus {
-        outline: none;
-    }
+    .inputRange:focus {}
 
     .inputRange {
         font-size: 15px;
         padding: 5px;
+        border: none;
     }
 </style>
 @section('content')

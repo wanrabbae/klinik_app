@@ -1,5 +1,13 @@
 @extends('templating.template_with_sidebar', ['isActiveTrx' => 'active'])
+<style>
+    .inputRange:focus {}
 
+    .inputRange {
+        font-size: 15px;
+        padding: 5px;
+        border: none;
+    }
+</style>
 @section('content')
     <h1>Transactions</h1>
     <div class="separator mb-3"></div>
@@ -8,7 +16,25 @@
             {{ session()->get('success') }}
         </div>
     @endif
-    <table id="datatable" class="display nowrap" style="width:100%">
+
+    <div class="mb-3">
+        Range Tanggal Transaksi: <input type="text" class="inputRange" id="minDate" placeholder="Dari Tanggal"> - <input type="text" class="inputRange" id="maxDate" placeholder="Sampai Tanggal">
+    </div>
+    {{-- 
+    <table border="0" cellspacing="5" cellpadding="5">
+        <tbody>
+            <tr>
+                <td>Minimum date:</td>
+                <td><input type="text" id="minDate" name="min"></td>
+            </tr>
+            <tr>
+                <td>Maximum date:</td>
+                <td><input type="text" id="maxDate" name="max"></td>
+            </tr>
+        </tbody>
+    </table> --}}
+
+    <table id="transactions_table" class="display nowrap" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>
@@ -26,7 +52,7 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $transaction->nomor_transaksi }}</td>
-                    <td>{{ $transaction->tgl_transaksi }}</td>
+                    <td>{{ date('d-F-Y', strtotime($transaction->tgl_transaksi)) }}</td>
                     <td>{{ $transaction->pasien->nama_pasien }}</td>
                     <td>{{ $transaction->dokter->nama }}</td>
                     <td>

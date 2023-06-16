@@ -84,9 +84,9 @@
                             <tr>
                                 <td>{{ $tindakan->tindakan->nama_tindakan }}</td>
                                 <td>{{ $tindakan->quantity }}</td>
-                                <td>{{ $tindakan->biaya }}</td>
+                                <td>{{ number_format($tindakan->biaya, 0, ',', '.') }}</td>
                                 <td>{{ $tindakan->discount }}</td>
-                                <td>{{ $tindakan->subtotal }}</td>
+                                <td>{{ number_format($tindakan->subtotal, 0, ',', '.') }}</td>
                                 <td>
                                     <button class="btn btn-info" data-toggle="modal" data-target="#modalEditTindakan{{ $tindakan->id }}">Edit</button>
                                     <a href="/transaction/tindakan/delete/{{ $tindakan->id }}" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus data ini ?')">Delete</a>
