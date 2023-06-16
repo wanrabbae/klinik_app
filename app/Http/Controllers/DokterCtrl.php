@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transactions;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DokterCtrl extends Controller
@@ -17,15 +18,30 @@ class DokterCtrl extends Controller
 
     public function kinerja()
     {
+        $data_kinerja = null;
         $data_dokters = User::where('role', 'Dokter')->get(["id", "nama"]);
-        return view('dokter.kinerja', compact('data_dokters'));
+        return view('dokter.kinerja', compact('data_dokters', 'data_kinerja'));
     }
 
     public function kinerjaPost(Request $request)
     {
-        $data = Transactions::with('dokter', 'pasien', 'transaction_tindak')->where('user_id', '=', $request->dokter)->whereBetween('created_at', [date($request->startDate), date($request->endDate)])->get();
+        $data_kinerja = Transactions::with('dokter', 'pasien', 'transaction_tindak', 'transaction_tindak.tindakan')->where('user_id', '=', $request->dokter)->whereBetween('created_at', [date($request->startDate), date($request->endDate)])->orderBy('created_at')->get()->groupBy(function ($item) {
+            return Carbon::parse($item->created_at)->format('d-F-Y');
+        });
 
-        dd($data);
+        $dataInfo = [];
+
+        if ($request->dokter && $request->startDate && $request->endDate) {
+            $dokter = User::find($request->dokter);
+            $dataInfo = [
+                "nama_dokter" => $dokter->nama,
+                "startDate" => Carbon::parse($request->startDate)->format('d-F-Y'),
+                "endDate" => Carbon::parse($request->endDate)->format('d-F-Y'),
+            ];
+        }
+
+        $data_dokters = User::where('role', 'Dokter')->get(["id", "nama"]);
+        return view('dokter.kinerja', compact('data_dokters', 'data_kinerja', 'dataInfo'));
     }
 
     public function store(Request $request)

@@ -12,8 +12,8 @@ class TransactionTindakan extends Model
     protected $guarded = [];
     protected $table = 'transaction_tindakans';
 
-    // public function tindakan()
-    // {
-    //     return $this->belongsTo(Tindakan::class, "tindakan_id");
-    // }
+    public function tindakan()
+    {
+        return $this->belongsTo(Tindakan::class, "tindakan_id");
+    }
 }

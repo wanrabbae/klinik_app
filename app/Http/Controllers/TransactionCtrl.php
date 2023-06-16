@@ -11,7 +11,7 @@ class TransactionCtrl extends Controller
 
     public function index()
     {
-        $data_transactions = Transactions::with(['pasien', 'dokter', 'transaction_tindak'])->get();
+        $data_transactions = Transactions::with(['pasien', 'dokter', 'transaction_tindak', 'transaction_tindak.tindakan'])->get();
         $countData = Transactions::count();
 
         if (auth()->user()->role == "Dokter") {
@@ -41,7 +41,7 @@ class TransactionCtrl extends Controller
             foreach ($tindakans as $tindak) {
                 TransactionTindakan::create([
                     "transaction_id" => $createTrx->id,
-                    "nama_tindakan" => $tindak["tindakanInput"],
+                    "tindakan_id" => intval($tindak["tindakanInput"]),
                     "biaya" => intval($tindak["hargaInput"]),
                     "quantity" => intval($tindak["quantityInput"]),
                     "discount" => intval($tindak["diskonInput"]),

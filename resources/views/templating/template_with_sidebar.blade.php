@@ -630,6 +630,8 @@
     <script src="js/vendor/jquery-3.3.1.min.js"></script>
     <script src="js/vendor/bootstrap.bundle.min.js"></script>
     <script src="js/vendor/perfect-scrollbar.min.js"></script>
+    <script src="js/vendor/Chart.bundle.min.js"></script>
+    <script src="js/vendor/chartjs-plugin-datalabels.js"></script>
     <script src="js/vendor/mousetrap.min.js"></script>
     <script src="js/dore.script.js"></script>
     <script src="js/scripts.js"></script>
@@ -671,6 +673,22 @@
                     }
                 }]
             });
+
+            // var table = $('#table_kinerja').DataTable({
+            //     dom: 'Bfrtip',
+            //     bPaginate: false,
+            //     searching: false,
+            //     paging: false,
+            //     info: false,
+            //     scrollX: true,
+            //     buttons: [{
+            //         extend: 'excel',
+            //         className: 'btn btn-success',
+            //         exportOptions: {
+            //             columns: 'th:not(:last-child)'
+            //         }
+            //     }]
+            // });
 
             // if (window.location.pathname = "/tindakan") {
             // Custom range filtering function

@@ -41,7 +41,7 @@
                                 </tr>
                                 @foreach ($transaction->transaction_tindak as $tindakan)
                                     <tr>
-                                        <td>{{ $tindakan->nama_tindakan }}</td>
+                                        <td>{{ $tindakan->tindakan->nama_tindakan }}</td>
                                         <td>{{ $transaction->dokter->nama }}</td>
                                         <td>{{ $transaction->keterangan }}</td>
                                     </tr>

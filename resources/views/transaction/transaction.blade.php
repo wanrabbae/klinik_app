@@ -32,7 +32,7 @@
                     <td>
                         @if ($transaction->transaction_tindak !== null)
                             @foreach ($transaction->transaction_tindak as $tindakan)
-                                <span style="font-size: 12px;">{{ $tindakan->nama_tindakan . ', ' }}</span>
+                                <span style="font-size: 12px;">{{ $tindakan->tindakan->nama_tindakan . ', ' }}</span>
                             @endforeach
                         @else
                             <span></span>

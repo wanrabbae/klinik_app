@@ -52,7 +52,7 @@ Route::post('/dokter', [DokterCtrl::class, 'store'])->name('dokter.post')->middl
 Route::post('/dokter/update/{id}', [DokterCtrl::class, 'update'])->name('dokter.put')->middleware('auth');
 Route::get('/dokter/delete/{id}', [DokterCtrl::class, 'delete'])->name('dokter.delete')->middleware('auth');
 Route::get('/kinerja', [DokterCtrl::class, 'kinerja'])->name('dokter.kinerja.index')->middleware('auth');
-Route::post('/lapor_kinerja', [DokterCtrl::class, 'kinerjaPost'])->name('dokter.kinerja.laporan')->middleware('auth');
+Route::get('/lapor_kinerja', [DokterCtrl::class, 'kinerjaPost'])->name('dokter.kinerja.laporan')->middleware('auth');
 
 
 // INFOGRAFIS ROUTES

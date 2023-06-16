@@ -22,7 +22,9 @@
 @section('content')
     <h1>Dashboard</h1>
     <div class="separator mb-5"></div>
+    <div id="showAlert">
 
+    </div>
     <div class="row justify-content-between">
         <div class="col-md-6">
             <h2>Masukkan Tindakan</h2>
@@ -111,7 +113,7 @@
                 <div id="editor"></div>
                 <div class="card-body struk" id="struk">
                     <div class="d-flex justify-content-end">
-                        <p style="font-size: 10px">Bandung 23/03/2023</p>
+                        <p style="font-size: 10px">Bandung {{ $dateNow }}</p>
                     </div>
 
                     <div class="d-flex justify-content-between">
@@ -412,7 +414,7 @@
                         quantityInput: quantityInput.value,
                         diskonInput: diskonInput.value,
                         hargaInput: hargaInput.value,
-                        tindakanInput: tindakanInput.value.split("-")[1],
+                        tindakanInput: tindakanInput.value.split("-")[0],
                     };
 
                     const totalWithQty = parseInt(valueObject.quantityInput) * parseInt(valueObject.hargaInput)
@@ -451,7 +453,14 @@
                         }
                     })
                     .then(function(responseData) {
-                        window.location.reload();
+                        document.getElementById('showAlert').innerHTML += `
+                            <div class="alert alert-success p-2 my-2" role="alert">
+                                <span style="font-size: 16px;">Berhasil membuat tindakan!</span>
+                            </div>
+                        `
+                        document.body.scrollTop = 0;
+                        document.documentElement.scrollTop = 0;
+                        // window.location.reload();
                     })
                     .catch(function(error) {
                         alert('Gagal membuat tindakan, coba lagi nanti!')

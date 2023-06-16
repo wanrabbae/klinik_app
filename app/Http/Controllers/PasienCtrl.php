@@ -16,7 +16,7 @@ class PasienCtrl extends Controller
 
     public function preview(Request $request)
     {
-        $data_patient = Pasiens::with('transactions', 'transactions.transaction_tindak', 'transactions.dokter')->where('id', '=', $request->get('id'))->first();
+        $data_patient = Pasiens::with('transactions', 'transactions.transaction_tindak', 'transactions.dokter', 'transactions.transaction_tindak.tindakan')->where('id', '=', $request->get('id'))->first();
         // dd($data_patient);
         return view('pasien.pasien_preview', compact('data_patient'));
     }
