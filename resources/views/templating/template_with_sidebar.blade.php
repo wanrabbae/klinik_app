@@ -91,7 +91,7 @@
                             <span>Dashboards</span>
                         </a>
                     </li>
-                    @if (auth()->user()->role != 'Dokter')
+                    @if (auth()->user()->role != 'Dokter' && auth()->user()->role != 'Admin')
                         <li id="menu_sidebar" class="test {{ $isActiveInfografis ?? '' }}">
                             <a href="/infografis">
                                 <i class="iconsminds-line-chart-1"></i> Infografis
@@ -121,11 +121,13 @@
                             </a>
                         </li>
 
-                        <li id="menu_sidebar" class="test {{ $isActiveKinerja ?? '' }}">
-                            <a href="/kinerja">
-                                <i class="iconsminds-stethoscope"></i> Kinerja Dokter
-                            </a>
-                        </li>
+                        @if (auth()->user()->role != 'Admin')
+                            <li id="menu_sidebar" class="test {{ $isActiveKinerja ?? '' }}">
+                                <a href="/kinerja">
+                                    <i class="iconsminds-stethoscope"></i> Kinerja Dokter
+                                </a>
+                            </li>
+                        @endif
                     @endif
 
                     {{-- <li>
@@ -607,20 +609,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12 col-sm-6">
-                        <p class="mb-0 text-muted">ColoredStrategies 2019</p>
-                    </div>
-                    <div class="col-sm-6 d-none d-sm-block">
-                        <ul class="breadcrumb pt-0 pr-0 float-right">
-                            <li class="breadcrumb-item mb-0">
-                                <a href="#" class="btn-link">Review</a>
-                            </li>
-                            <li class="breadcrumb-item mb-0">
-                                <a href="#" class="btn-link">Purchase</a>
-                            </li>
-                            <li class="breadcrumb-item mb-0">
-                                <a href="#" class="btn-link">Docs</a>
-                            </li>
-                        </ul>
+                        <p class="mb-0 text-muted">Dental Care 2023</p>
                     </div>
                 </div>
             </div>
@@ -637,6 +626,7 @@
     <script src="js/dore.script.js"></script>
     <script src="js/scripts.js"></script>
     {{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>

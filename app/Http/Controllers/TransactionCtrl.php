@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Tindakan;
 use App\Models\Transactions;
 use App\Models\TransactionTindakan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TransactionCtrl extends Controller
 {
+
 
     public function index()
     {
@@ -78,6 +80,21 @@ class TransactionCtrl extends Controller
         return response()->json($request->all(), 201);
     }
 
+    public function updateKeterangan(Request $request, $id)
+    {
+        $createTrx = Transactions::find($id);
+
+        if (!$createTrx) {
+            return back()->with('error', 'Transaksi tidak ditemukan');
+        }
+
+        $createTrx->update([
+            "keterangan" => $request->keterangan,
+        ]);
+
+        return back()->with('success', 'Berhasil update keterangan!');
+    }
+
     // TRANSACTION TINDAKAN CTRL
 
     public function createTindakan(Request $request)
@@ -128,6 +145,57 @@ class TransactionCtrl extends Controller
 
         $transaction->destroy($id);
         return back()->with('success', 'Berhasil menghapus tindakan');
+    }
+
+    public function transactionInOneYear()
+    {
+        $data_transactions = Transactions::all();
+
+        return response()->json($data_transactions);
+    }
+
+    public function transactionByDokter(Request $request)
+    {
+        $data_transactions = Transactions::with(['dokter'])->whereBetween('created_at', [date("Y-m-d", strtotime("-7 days")), date("Y-m-d", strtotime("+1 day"))])->orderBy('created_at')->get()->groupBy(function ($item) {
+            return Carbon::parse($item->created_at)->format('d-F-Y');
+        });
+
+        if ($request->has('dokter') && $request->has('startDate') && $request->has('endDate')) {
+            $dokter = $request->query('dokter');
+            $data_transactions = Transactions::with(['dokter' => function ($query) use ($dokter) {
+                $query->where('nama', '=', $dokter);
+            }])->whereBetween('created_at', [date($request->query('startDate')), date($request->query('endDate'), strtotime("+1 day"))])->orderBy('created_at')->get()->groupBy(function ($item) {
+                return Carbon::parse($item->created_at)->format('d-F-Y');
+            });
+        } else if ($request->has('startDate') && $request->has('endDate')) {
+            $data_transactions = Transactions::with(['dokter'])->whereBetween('created_at', [date($request->query('startDate')), date($request->query('endDate'), strtotime("+1 day"))])->orderBy('created_at')->get()->groupBy(function ($item) {
+                return Carbon::parse($item->created_at)->format('d-F-Y');
+            });
+        }
+
+        return response()->json($data_transactions);
+    }
+
+    public function transactionByTindakan(Request $request)
+    {
+        $data_transactions = TransactionTindakan::with(['tindakan'])->whereBetween('created_at', [date("Y-m-d", strtotime("-7 days")), date("Y-m-d", strtotime("+1 day"))])->orderBy('created_at')->get()->groupBy(function ($item) {
+            return Carbon::parse($item->created_at)->format('d-F-Y');
+        });
+
+        if ($request->has('tindakan') && $request->has('startDate') && $request->has('endDate')) {
+            $tindakan = $request->query('tindakan');
+            $data_transactions = TransactionTindakan::with(['tindakan' => function ($query) use ($tindakan) {
+                $query->where('nama_tindakan', '=', $tindakan);
+            }])->whereBetween('created_at', [date($request->query('startDate')), date($request->query('endDate'), strtotime("+1 day"))])->orderBy('created_at')->get()->groupBy(function ($item) {
+                return Carbon::parse($item->created_at)->format('d-F-Y');
+            });
+        } else if ($request->has('startDate') && $request->has('endDate')) {
+            $data_transactions = TransactionTindakan::with(['tindakan'])->whereBetween('created_at', [date($request->query('startDate')), date($request->query('endDate'), strtotime("+1 day"))])->orderBy('created_at')->get()->groupBy(function ($item) {
+                return Carbon::parse($item->created_at)->format('d-F-Y');
+            });
+        }
+
+        return response()->json($data_transactions);
     }
 
     // BACKUP EDIT TINDAKAN (DONT REMOVE!)

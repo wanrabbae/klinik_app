@@ -35,6 +35,12 @@
             <p class="text-lg" style="font-size: 18px;">Transaksi ke: <strong>{{ $transaction->id }}</strong></p>
             <p class="text-lg" style="font-size: 18px;">Dokter Yang Menangani: <strong>{{ $transaction->dokter->nama }}</strong></p>
 
+            <form action="/tindakan/update-keterangan/{{ $transaction->id }}" method="post">
+                @csrf
+                <p class="text-lg" style="font-size: 18px;">Keterangan Dokter: </p>
+                <textarea name="keterangan" id="keterangan" rows="2" class="form-control mb-2">{{ $transaction->keterangan }}</textarea>
+                <button class="btn btn-sm btn-primary mx-auto" type="submit">Ubah Keterangan</button>
+            </form>
 
             {{-- <p class="text-lg" style="font-size: 18px;">Nomor Transaksi:</p>
             <input type="text" class="form-control mb-3" value="{{ $transaction->nomor_transaksi }}">

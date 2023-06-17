@@ -31,10 +31,14 @@ Route::get('/', [DashboardCtrl::class, 'index'])->name('dashboard')->middleware(
 
 // TRANSACTION ROUTES
 Route::get('/transaction', [TransactionCtrl::class, 'index'])->name('transaction.index')->middleware('auth');
+Route::get('/transaction/chart/dokter', [TransactionCtrl::class, 'transactionByDokter'])->name('transaction.index');
+Route::get('/transaction/chart/yearly', [TransactionCtrl::class, 'transactionInOneYear'])->name('transaction.index')->middleware('auth');
+Route::get('/transaction/chart/tindakan', [TransactionCtrl::class, 'transactionByTindakan'])->name('transaction.index')->middleware('auth');
 Route::post('/transaction', [TransactionCtrl::class, 'store'])->name('transaction.store')->middleware('auth');
 Route::get('/transaction/delete/{id}', [TransactionCtrl::class, 'destroy'])->name('transaction.delete')->middleware('auth');
 Route::get('/transaction_preview', [TransactionCtrl::class, 'preview'])->name('transaction.preview')->middleware('auth');
 Route::post('/download-nota', [PDFController::class, 'generateNota']);
+Route::post('/tindakan/update-keterangan/{id}', [TransactionCtrl::class, 'updateKeterangan'])->middleware('auth');
 
 // TRANSACTION TINDAKAN ROUTES
 Route::post('/transaction/tindakan', [TransactionCtrl::class, 'createTindakan'])->name('transaction_tindakan.delete')->middleware('auth');
