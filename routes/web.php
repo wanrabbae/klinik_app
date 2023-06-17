@@ -34,7 +34,7 @@ Route::get('/transaction', [TransactionCtrl::class, 'index'])->name('transaction
 Route::post('/transaction', [TransactionCtrl::class, 'store'])->name('transaction.store')->middleware('auth');
 Route::get('/transaction/delete/{id}', [TransactionCtrl::class, 'destroy'])->name('transaction.delete')->middleware('auth');
 Route::get('/transaction_preview', [TransactionCtrl::class, 'preview'])->name('transaction.preview')->middleware('auth');
-Route::post('/download-nota', [PDFController::class, 'downloadPDF']);
+Route::post('/download-nota', [PDFController::class, 'generateNota']);
 
 // TRANSACTION TINDAKAN ROUTES
 Route::post('/transaction/tindakan', [TransactionCtrl::class, 'createTindakan'])->name('transaction_tindakan.delete')->middleware('auth');

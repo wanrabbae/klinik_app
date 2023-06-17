@@ -645,7 +645,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
     <script src="https://cdn.datatables.net/datetime/1.4.1/js/dataTables.dateTime.min.js"></script>
 
@@ -678,21 +677,6 @@
                     }
                 }]
             });
-
-            // var table = $('#table_kinerja').DataTable({
-            //     // bPaginate: false,
-            //     // searching: false,
-            //     // paging: false,
-            //     // info: false,
-            //     // scrollX: true,
-            //     buttons: [{
-            //         extend: 'excel',
-            //         className: 'btn btn-success',
-            //         exportOptions: {
-            //             columns: 'th:not(:last-child)'
-            //         }
-            //     }]
-            // });
 
             // if (window.location.pathname = "/tindakan") {
             // Custom range filtering function

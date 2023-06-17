@@ -469,31 +469,6 @@
                     });
             })
 
-            // const downloadButton = document.getElementById('downloadButton');
-            // downloadButton.addEventListener('click', () => {
-            //     const content = document.getElementById('content');
-            //     html2pdf()
-            //         .set({
-            //             margin: 10,
-            //             filename: 'file.pdf',
-            //             image: {
-            //                 type: 'jpeg',
-            //                 quality: 0.98
-            //             },
-            //             html2canvas: {
-            //                 dpi: 192,
-            //                 letterRendering: true
-            //             },
-            //             jsPDF: {
-            //                 unit: 'mm',
-            //                 format: 'a4',
-            //                 orientation: 'portrait'
-            //             },
-            //         })
-            //         .from(content)
-            //         .save();
-            // });
-
             // Update the JavaScript code to trigger the download
             const downloadButton = document.getElementById('downloadButton');
             downloadButton.addEventListener('click', () => {
@@ -516,10 +491,10 @@
                         nama_tindakan: tindakanInput.value.split("-")[1],
                     };
 
-                    const totalWithQty = parseInt(valueObject.quantityInput) * parseInt(valueObject.hargaInput)
-                    const discountAmount = (totalWithQty * parseInt(valueObject.diskonInput)) / 100
+                    const totalWithQty = parseInt(valueObject.quantity) * parseInt(valueObject.biaya)
+                    const discountAmount = (totalWithQty * parseInt(valueObject.discount)) / 100
 
-                    const jumlahKalkulasi = valueObject.diskonInput ? totalWithQty - discountAmount : totalWithQty
+                    const jumlahKalkulasi = valueObject.discount ? totalWithQty - discountAmount : totalWithQty
 
                     valueObject['subtotal'] = jumlahKalkulasi
 
