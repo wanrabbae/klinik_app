@@ -67,9 +67,65 @@
                     <td>{{ count($transaction->transaction_tindak) }}</td>
                     <td>
                         <a href="/transaction_preview?id={{ $transaction->id }}" class="btn btn-sm btn-info">Preview</a>
-                        {{-- <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalEditPasien{{ $transaction->id }}">Edit</button> --}}
-                        <a href="#" class="btn btn-sm btn-primary" onclick="return confirm('Anda yakin ingin menghapus data ini ?')">Nota</a>
+                        <a href="#" id="notaBtn{{ $transaction->id }}" class="btn btn-sm btn-primary" data-nomor_transaksi="{{ $transaction->nomor_transaksi }}"
+                            data-tanggal_transaksi="{{ $transaction->tgl_transaksi }}" data-nama_pasien="{{ $transaction->pasien->nama_pasien }}"
+                            data-telepon_pasien="{{ $transaction->pasien->telepon }}" data-keterangan="{{ $transaction->keterangan }}" data-data_tindakans="{{ $transaction->transaction_tindak }}"
+                            onclick="downloadNota{{ $transaction->id }}()">Nota</a>
                         <a href="/transaction/delete/{{ $transaction->id }}" class="btn btn-sm btn-danger" onclick="return confirm('Anda yakin ingin menghapus data ini ?')">Delete</a>
+
+                        <script>
+                            function downloadNota{{ $transaction->id }}() {
+                                const notrx = $('#notaBtn{{ $transaction->id }}').data('nomor_transaksi');
+                                const tgl_transaksi = $('#notaBtn{{ $transaction->id }}').data('tanggal_transaksi');
+                                const nama_pasien = $('#notaBtn{{ $transaction->id }}').data('nama_pasien');
+                                const telepon_pasien = $('#notaBtn{{ $transaction->id }}').data('telepon_pasien');
+                                const keterangan = $('#notaBtn{{ $transaction->id }}').data('keterangan');
+                                const data_tindakans = $('#notaBtn{{ $transaction->id }}').data('data_tindakans');
+
+                                const tindakans = data_tindakans;
+                                const totally = tindakans.reduce(function(accumulator, currentValue) {
+                                    return accumulator + currentValue.subtotal;
+                                }, 0).toString();
+
+                                tindakans.map(tdk => tdk["nama_tindakan"] = tdk["tindakan"]["nama_tindakan"]);
+
+                                fetch(`
+                                    /download-nota?tanggal=${tgl_transaksi}
+                                    &notrx=${notrx}
+                                    &nama_pasien=${nama_pasien}
+                                    &keterangan=${keterangan}
+                                    &notelp=${telepon_pasien}
+                                    &totally=${totally}
+        `, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                        },
+                                        body: JSON.stringify({
+                                            data_tindakan: tindakans
+                                        })
+                                    })
+                                    .then(response => response.blob())
+                                    .then(blob => {
+                                        // Create a temporary URL for the blob
+                                        const url = URL.createObjectURL(blob);
+
+                                        // Create a link element and simulate a click to trigger the download
+                                        const a = document.createElement('a');
+                                        a.href = url;
+                                        a.download = 'file.pdf';
+                                        a.style.display = 'none';
+                                        document.body.appendChild(a);
+                                        a.click();
+
+                                        // Clean up the temporary URL and remove the link element
+                                        URL.revokeObjectURL(url);
+                                        document.body.removeChild(a);
+                                    })
+                                    .catch(error => console.error(error));
+                            }
+                        </script>
                     </td>
                 </tr>
             @endforeach
